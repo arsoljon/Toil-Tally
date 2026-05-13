@@ -8,9 +8,9 @@ pipeline {
             }
         }
 
-        stage('Hello') {
+        stage('Run Python') {
             steps {
-                echo 'Pipeline is running'
+                sh 'python hello.py'
             }
         }
     }
