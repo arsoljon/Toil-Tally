@@ -1,9 +1,10 @@
 import tkinter as tk
+from tkinter import font
 import time
 
 
 class HomeFrame(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, totalTime, currentDate):
         super().__init__(parent)
         self.todaysTotalTime = "00:26:33"
         self.buttonLabels = ["Start", "Add"]
@@ -30,22 +31,30 @@ class HomeFrame(tk.Frame):
         return self.todaysTotalTime
 
 class ClockedInFrame(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, totalTime, currentDate):
         super().__init__(parent)
         self.lengthOfSession = "01:02:03"
         self.buttonLabels = ["End", "Pause"]
-        #text
-        self.label_currentDate = tk.Label(self, font=("Arial", 16))
-        self.label_currentDate.pack(pady=20)
-        self.label_totalTime = tk.Label(self, font=("Arial", 16))
-        self.label_totalTime.pack(pady=20)
+ #text
+        style = "Arial"
+        size_offset = .8
+        size = int(16 * size_offset)
+        my_text = font.Font(family=style, size=size)
+        pixel_width = my_text.measure(currentDate)
+        index = 0
+        
+        self.label_currentDate = tk.Label(self, text=f"Date: {currentDate}", font=(style, size))
+        self.label_currentDate.grid(row=0, column=0, sticky="w")
+        self.label_totalTime = tk.Label(self, text=f"Total Time: {totalTime}", font=(style, size))
+        self.label_totalTime.grid(row=0, column=1, sticky="ne")
+
         self.label_lengthOfSession = tk.Label(self, text= f"Total: {self.lengthOfSession}", font=("Arial", 16))
-        self.label_lengthOfSession.pack(pady=20)
+        self.label_lengthOfSession.grid(row=2, column=0)
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command=self.on_click)
-        self.button1.pack()
+        self.button1.grid(row=1, column=0)
         self.button2 = tk.Button(self, text=self.buttonLabels[1], command=self.on_click)
-        self.button2.pack()
+        self.button2.grid(row=1, column=1)
 
     def on_click(self):
         buttonMessage = "Button clicked!"
@@ -57,17 +66,40 @@ class ClockedInFrame(tk.Frame):
         return self.lengthOfSession
 
 class AddTimeFrame(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, totalTime, currentDate):
         super().__init__(parent)
         self.timeSelection= "00:00:00"
-        self.buttonLabels = ["Add"]
-        self.label_currentDate = tk.Label(self, font=("Arial", 16))
-        self.label_currentDate.pack(pady=20)
-        self.label_totalTime = tk.Label(self, font=("Arial", 16))
-        self.label_totalTime.pack(pady=20)
+        self.buttonLabels = ["Add", "Cancel"]
+       #text
+        style = "Arial"
+        size_offset = .8
+        size = int(16 * size_offset)
+        my_text = font.Font(family=style, size=size)
+        pixel_width = my_text.measure(currentDate)
+        index = 0
+        
+        self.label_currentDate = tk.Label(self, text=f"Date: {currentDate}", font=(style, size))
+        self.label_currentDate.grid(row=0, column=0, sticky="w")
+        self.label_totalTime = tk.Label(self, text=f"Total Time: {totalTime}", font=(style, size))
+        self.label_totalTime.grid(row=0, column=1, sticky="e")
+        #input
+        self.label_hh = tk.Label(self, text="hh", font=(style, size))
+        self.label_mm = tk.Label(self, text="mm", font=(style, size))
+        self.label_hh.grid(row=1, column=1, sticky="e")
+        self.label_mm.grid(row=1, column=3)
+        hour = tk.Spinbox(self, from_=0, to=23, width=3, format="%02.0f")
+        hour.grid(row=1, column=2)
+        minute = tk.Spinbox(self, from_=0, to=59, width=3, format="%02.0f")
+        minute.grid(row=1, column=4)
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command=self.on_click)
-        self.button1.pack()
+        self.button1.grid(row=1, column=0)
+        self.button2 = tk.Button(self, text=self.buttonLabels[1], command=self.on_click)
+        self.button2.grid(row=2, column=0)
+
+    def on_click(self):
+        buttonMessage = "Button clicked!"
+        print(buttonMessage)
 
     def getButtons(self):
         return self.buttonLabels
@@ -75,7 +107,7 @@ class AddTimeFrame(tk.Frame):
         return self.timeSelection
 
 class PauseFrame(tk.Frame):
-    def __init__(self, parent, sessionLength):
+    def __init__(self, parent, sessionLength, totalTime, currentDate):
         super().__init__(parent)
         self.lengthOfSession = sessionLength
         self.lengthOfPauseSession = "00:00:00"
@@ -83,11 +115,11 @@ class PauseFrame(tk.Frame):
         #text preprocessing
         root = self.winfo_toplevel()
         root.update_idletasks()
-        size, position= root.geometry().split("+", 1)
-        width, height = map(int, size.split("x"))
+        geometry_size, position= root.geometry().split("+", 1)
+        width, height = map(int, geometry_size.split("x"))
         spacing = 5
         row_offset =  height/5 
-        column_width_1 = width/4
+        column_width_1 = int(width/2)
         column_offset_2 = width/5
         column_offset_3 = width/3
 
@@ -95,30 +127,33 @@ class PauseFrame(tk.Frame):
         print(f"width : {width}")
         #text
         style = "Arial"
-        size_offset = 0.8
+        size_offset = .8
         size = int(16 * size_offset)
+        my_text = font.Font(family=style, size=size)
+        pixel_width = my_text.measure(currentDate)
         index = 0
-        self.label_currentDate = tk.Label(self, font=(style, size))
-        self.label_currentDate.place(x=0*row_offset+spacing, y=0*column_width_1+spacing, width = column_width_1, height = row_offset)
-        self.label_totalTime = tk.Label(self, font=(style, size))
-        self.label_totalTime.place(x=1*column_width_1+spacing*10, y=0*column_width_1+spacing, width = column_width_1, height = row_offset)
-        '''
+
+        self.label_currentDate = tk.Label(self, text=f"Date: {currentDate}", font=(style, size))
+        self.label_currentDate.grid(row=0, column=0, sticky="w")
+        #self.label_currentDate.place(x= (0*row_offset) + (0*column_width_1) + spacing, y= (0*row_offset) + (0*column_width_1) +spacing)
+        self.label_totalTime = tk.Label(self, text=f"Total Time: {totalTime}", font=(style, size))
+        self.label_totalTime.grid(row=0, column=1, sticky="ne")
+        #self.label_totalTime.place(x= 100 + spacing, y= (1*row_offset) + (0*column_width_1) +spacing)
+        print(my_text.measure(totalTime))
+
         self.label_lengthOfSession = tk.Label(self, text= f"Total: {self.lengthOfSession}", font=(style, size))
-        self.label_lengthOfSession.place(x=index*row_offset+spacing, y=index*column_offset_1+spacing)
-        self.label_lengthOfSession.grid(row=2, column=0, padx=10)
-        self.label_lengthOfSession = tk.Label(self, text= f"Pause for: {self.lengthOfPauseSession}", font=(style, size))
-        self.label_lengthOfSession.grid(row=3, column=0, padx=10)
+        self.label_lengthOfSession.grid(row=2, column=0)
+        self.label_lengthOfPausedSession = tk.Label(self, text= f"Pause for: {self.lengthOfPauseSession}", font=(style, size))
+        self.label_lengthOfPausedSession.grid(row=3, column=0)
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command=self.on_click)
         self.button1.grid(row=1, column=0)
         self.button2 = tk.Button(self, text=self.buttonLabels[1], command=self.on_click)
         self.button2.grid(row=1, column=1)
-        '''
-
+ 
     def on_click(self):
         buttonMessage = "Button clicked!"
         print(buttonMessage)
-
 
     def getButtons(self):
         return self.buttonLabels
@@ -132,23 +167,22 @@ class AppUI(tk.Tk):
         super().__init__()
         self.currentDate = time.strftime("%Y-%m-%d")
         self.totalTime = "01:23:45"
-        
-
+    
         self.geometry("500x300+100+600")
         container = tk.Frame(self)
         container.pack(fill="both", expand=True)
 
-    
         self.frames = {}
-        self.frames[HomeFrame] = HomeFrame(container)
-        self.frames[ClockedInFrame] = ClockedInFrame(container)
+        self.frames[HomeFrame] = HomeFrame(container, self.totalTime, self.currentDate)
+        self.frames[ClockedInFrame] = ClockedInFrame(container, self.totalTime, self.currentDate)
         session_length = self.frames[ClockedInFrame].getLengthOfSession()
-        self.frames[PauseFrame] = PauseFrame(container, session_length)
+        self.frames[PauseFrame] = PauseFrame(container, session_length, self.totalTime, self.currentDate)
+        self.frames[AddTimeFrame] = AddTimeFrame(container, self.totalTime, self.currentDate)
         self.framesTitles = ["Default", "ClockedInScreen", "AddTimeScreen", "PauseScreen"]
         for frame in self.frames.values():
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(PauseFrame)
+        self.show_frame(AddTimeFrame)
 
 
     def show_frame(self, frame_class):
@@ -156,12 +190,6 @@ class AppUI(tk.Tk):
         frame.label_currentDate.config(text=f"Date: {self.currentDate}")
         frame.label_totalTime.config(text=f"Total Time: {self.totalTime}")
         frame.tkraise()
-        self.update_idletasks()
-        print(self.geometry())  #400x300+100+600
-        size, position = self.geometry().split("+",1)
-        width, height = map(int, size.split("x"))
-        x,y = map(int, position.split("+"))
-        print(f"{x}, {y}")
         
         
 
