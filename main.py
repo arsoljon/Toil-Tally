@@ -7,7 +7,7 @@ class HomeFrame(tk.Frame):
     def __init__(self, parent, controller, clockInPage, addPage, totalTime, currentDate):
         super().__init__(parent)
         self.todaysTotalTime = "00:26:33"
-        self.buttonLabels = ["Start", "Add"]
+        self.buttonLabels = ["Start", "Add", "Other"]
         self.pages = [clockInPage, addPage]
         style = "Arial"
         size_offset = .8
@@ -21,15 +21,30 @@ class HomeFrame(tk.Frame):
         self.label_todaysTotalTime = tk.Label(self, text= f"Todays Total: {self.todaysTotalTime}", font=(style, size))
         self.label_todaysTotalTime.grid(row=2, column=0, sticky="w")
         #buttons
-        self.button1 = tk.Button(self, text=self.buttonLabels[0], command=lambda: controller.show_frame(self.pages[0]))
+        self.button1 = tk.Button(self, text=self.buttonLabels[0], command=lambda: self.on_click(controller, self.buttonLabels[0]))
         self.button1.grid(row=1, column=0, sticky="w")
-        self.button2 = tk.Button(self, text=self.buttonLabels[1], command=lambda: controller.show_frame(self.pages[1]))
+        self.button2 = tk.Button(self, text=self.buttonLabels[1], command=lambda: self.on_click(controller, self.buttonLabels[1]))
         self.button2.grid(row=1, column=1, sticky="e")
+        #radiobuttons
+        labels_jobs = ["Devops", "Stonks", "Other"]
+        self.selected = tk.StringVar(value=labels_jobs[0])
+        for i, job in enumerate(labels_jobs):
+            rb = tk.Radiobutton(
+                self,
+                text=job,
+                variable=self.selected,
+                value=job
+            )
+            rb.grid(row=i+1, column= 1)
 
-    def on_click(self):
-        print()
-        buttonMessage = "Button clicked!"
-        print(buttonMessage)
+    def on_click(self, controller, buttonLabel):
+        if(buttonLabel == self.buttonLabels[0]):
+            print(f"{self.buttonLabels[0]}!")
+            controller.show_frame(ClockedInFrame)
+            print(self.selected.get())
+        else:
+            print(f"{self.buttonLabels[1]}!")
+            controller.show_frame(AddTimeFrame)
 
     def getButtons(self):
         return self.buttonLabels
@@ -39,6 +54,7 @@ class HomeFrame(tk.Frame):
 class ClockedInFrame(tk.Frame):
     def __init__(self, parent, controller, totalTime, currentDate):
         super().__init__(parent)
+        self.currentJob = "Devops"
         self.lengthOfSession = "01:02:03"
         self.buttonLabels = ["End", "Pause"]
         #text
@@ -50,9 +66,11 @@ class ClockedInFrame(tk.Frame):
         self.label_currentDate.grid(row=0, column=0, sticky="w")
         self.label_totalTime = tk.Label(self, text=f"Total Time: {totalTime}", font=(style, size))
         self.label_totalTime.grid(row=0, column=1, sticky="ne")
-
-        self.label_lengthOfSession = tk.Label(self, text= f"Total: {self.lengthOfSession}", font=("Arial", 16))
-        self.label_lengthOfSession.grid(row=2, column=0)
+        
+        self.label_currentJob = tk.Label(self, text= f"{self.currentJob}", font=(style, size))
+        self.label_currentJob.grid(row=2, column=0, sticky = "w")
+        self.label_lengthOfSession = tk.Label(self, text= f"Total: {self.lengthOfSession}", font=(style, size))
+        self.label_lengthOfSession.grid(row=3, column=0, sticky = "w")
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click(controller, self.buttonLabels[0]))
         self.button1.grid(row=1, column=0)
@@ -75,6 +93,7 @@ class ClockedInFrame(tk.Frame):
 class AddTimeFrame(tk.Frame):
     def __init__(self, parent, controller, totalTime, currentDate):
         super().__init__(parent)
+        self.jobs = ["Devops", "Stonks"]
         self.timeSelection= "00:00:00"
         self.buttonLabels = ["Add", "Cancel"]
         #text
@@ -100,10 +119,28 @@ class AddTimeFrame(tk.Frame):
         self.button1.grid(row=1, column=0)
         self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click(controller, self.buttonLabels[1]))
         self.button2.grid(row=2, column=0)
+        #radiobuttons
+        labels_jobs = ["Devops", "Stonks", "Other"]
+        self.selected = tk.StringVar(value=labels_jobs[0])
+        for i, job in enumerate(labels_jobs):
+            rb = tk.Radiobutton(
+                self,
+                text=job,
+                variable=self.selected,
+                value=job
+            )
+            rb.grid(row=i+1, column= 1)
+        #entry
+        self.entry = tk.Entry(self)
+        self.entry.grid(row=3, column= 3)
 
     def on_click(self, controller, buttonLabel):
         if(buttonLabel == self.buttonLabels[0]):
             print(f"{self.buttonLabels[0]}!")
+            result = self.selected.get()
+            if (len(self.entry.get()) > 0 and self.selected.get() == "Other"):
+                result = self.entry.get()
+            print(result)
             controller.show_frame(HomeFrame)
         else:
             print(f"{self.buttonLabels[1]}!")
