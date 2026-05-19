@@ -6,7 +6,6 @@ class AddTimeFrame(tk.Frame):
         self.controller = controller
         self.currentDate = controller.state["currentDate"]
         self.totalTime = controller.state["totalTime"]
-        self.jobs = controller.state["available jobs"]
         self.timeSelection = controller.state["add timeSelection"]
         self.buttonLabels = controller.state["AddTime buttons"]
         self.selected = controller.state["job_selected"]

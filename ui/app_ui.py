@@ -4,11 +4,24 @@ from ui.home_frame import HomeFrame
 from ui.add_time_frame import AddTimeFrame
 from ui.pause_frame import PauseFrame
 from ui.clock_in_time_frame import ClockedInFrame
+from model.app_state import AppState
 
 class AppUI(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.new_state = AppState()
+        self.new_state.default_setup()
+        
+        self.home_pages = [ClockedInFrame, AddTimeFrame]
+        self.ClockedIn_pages = [HomeFrame, PauseFrame]
+        self.Pause_pages = [HomeFrame, ClockedInFrame]
+        self.AddTime_pages = [HomeFrame]
+        self.home_buttons = ["Start", "Add"]        
+        self.Pause_buttons = ["End", "Continue"]
+        self.AddTime_buttons = ["Add", "Cancel"]
+        self.ClockedIn_buttons =  ["End", "Pause"]
 
+        print(self.new_state.currentDate)
         self.state = {
             "currentDate" : time.strftime("%Y-%m-%d"),
             "totalTime" : "01:23:45",
@@ -21,7 +34,6 @@ class AppUI(tk.Tk):
             "lengthOfSession" : "01:30:31",
             "ClockedIn buttons": ["End", "Pause"],
             "AddTime pages" : [HomeFrame],
-            "available jobs" : ["Devops", "Stonks"],
             "add timeSelection" : "00:00:00",
             "AddTime buttons" : ["Add", "Cancel"],
             "Pause pages" : [HomeFrame, ClockedInFrame],
@@ -46,6 +58,7 @@ class AppUI(tk.Tk):
         self.frames[ClockedInFrame] = ClockedInFrame(container, self)
         self.frames[PauseFrame] = PauseFrame(container, self)
         self.frames[AddTimeFrame] = AddTimeFrame(container, self)
+
         for frame in self.frames.values():
             frame.grid(row=0, column=0, sticky="nsew")
         self.show_frame(HomeFrame)

@@ -1,4 +1,5 @@
 import tkinter as tk
+from services.pause_services import PauseService
 
 class PauseFrame(tk.Frame):
     def __init__(self, parent, controller):
@@ -31,9 +32,12 @@ class PauseFrame(tk.Frame):
 
     def on_click(self, controller, buttonLabel):
         if(buttonLabel == self.buttonLabels[0]):
+            #end, go to home frame
+            #add the current session time to the current jobs time
             print(f"{self.buttonLabels[0]}!")
             controller.show_frame(self.pages[0])
         else:
+            #continue, go to clocked in frame
             print(f"{self.buttonLabels[1]}!")
             controller.show_frame(self.pages[1])
 
