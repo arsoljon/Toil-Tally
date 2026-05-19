@@ -9,19 +9,19 @@ from model.app_state import AppState
 class AppUI(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.new_state = AppState()
-        self.new_state.default_setup()
+        new_state = AppState()
+        new_state.setup()
         
-        self.home_pages = [ClockedInFrame, AddTimeFrame]
-        self.ClockedIn_pages = [HomeFrame, PauseFrame]
-        self.Pause_pages = [HomeFrame, ClockedInFrame]
-        self.AddTime_pages = [HomeFrame]
-        self.home_buttons = ["Start", "Add"]        
-        self.Pause_buttons = ["End", "Continue"]
-        self.AddTime_buttons = ["Add", "Cancel"]
-        self.ClockedIn_buttons =  ["End", "Pause"]
+        new_state.home_pages = [ClockedInFrame, AddTimeFrame]
+        new_state.ClockedIn_pages = [HomeFrame, PauseFrame]
+        new_state.Pause_pages = [HomeFrame, ClockedInFrame]
+        new_state.AddTime_pages = [HomeFrame]
+        new_state.home_buttons = ["Start", "Add"]        
+        new_state.Pause_buttons = ["End", "Continue"]
+        new_state.AddTime_buttons = ["Add", "Cancel"]
+        new_state.ClockedIn_buttons =  ["End", "Pause"]
 
-        print(self.new_state.currentDate)
+        print(new_state.currentDate)
         self.state = {
             "currentDate" : time.strftime("%Y-%m-%d"),
             "totalTime" : "01:23:45",

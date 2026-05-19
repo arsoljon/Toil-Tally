@@ -1,6 +1,53 @@
 from dataclasses import dataclass, field
 import time
 
+@dataclass
+class AppState:
+    currentDate: str = ""
+    todaysTotalTime: str = ""
+    totalTime: str = ""
+    currentJob: str = ""
+    lengthOfSession: str = ""
+    labels_for_jobs: list[str] = field(default_factory=list)
+    job_durations: dict[str, str] = field(default_factory=dict)
+    
+    add_timeSelection: str = ""
+    lengthOfPauseSession: str = ""
+    job_selected: str = ""
+    
+    home_pages: list[str] = field(default_factory=list)
+    Pause_pages: list[str] = field(default_factory=list)
+    AddTime_pages: list[str] = field(default_factory=list)
+    ClockedIn_pages: list[str] = field(default_factory=list)
+    home_buttons: list[str] = field(default_factory=list)
+    Pause_buttons: list[str] = field(default_factory=list)
+    AddTime_buttons: list[str] = field(default_factory=list)
+    ClockedIn_buttons: list[str] = field(default_factory=list)
+    
+    style: str = ""
+    size: int = 0
+    #default is true if I do not want to save to the database. Do not save to db
+    default: bool = True
+
+    def setup(self):
+        if self.default == True:
+            self.totalTime =  "01:23:45"
+            self.currentDate =  time.strftime("%Y-%m-%d")
+            self.labels_for_jobs = ["Devops", "Stonks", "Other"]
+            self.todaysTotalTime = "00:26:33"
+            self.lengthOfSession = "01:30:31"
+            self.currentJob = "Devops"
+            self.add_timeSelection = "00:00:00"
+            self.available_jobs = ["Devops", "Stonks"]
+            self.lengthOfPauseSession = "00:00:00"
+
+            self.job_selected = ""
+            self.style = "Arial"
+            self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"},
+
+            self.size = int(16 * .8)
+
+'''
 
 class AppState():
     def __init__(self):
@@ -31,20 +78,20 @@ class AppState():
         self.default = True
 
     def default_setup(self):
-        self.currentDate =  time.strftime("%Y-%m-%d")
         self.totalTime =  "01:23:45"
-        self.todaysTotalTime = "00:26:33"
+        self.currentDate =  time.strftime("%Y-%m-%d")
         self.labels_for_jobs = ["Devops", "Stonks", "Other"]
-        self.currentJob = "Devops"
+        self.todaysTotalTime = "00:26:33"
         self.lengthOfSession = "01:30:31"
-        self.available_jobs = ["Devops", "Stonks"]
+        self.currentJob = "Devops"
         self.add_timeSelection = "00:00:00"
+        self.available_jobs = ["Devops", "Stonks"]
         self.lengthOfPauseSession = "00:00:00"
 
         self.job_selected = ""
-        self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"},
         self.style = "Arial"
+        self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"},
+
         self.size = int(16 * .8)
-
     
-
+'''
