@@ -12,14 +12,14 @@ class AppUI(tk.Tk):
         new_state = AppState()
         new_state.setup()
         
-        new_state.home_pages = [ClockedInFrame, AddTimeFrame]
-        new_state.ClockedIn_pages = [HomeFrame, PauseFrame]
-        new_state.Pause_pages = [HomeFrame, ClockedInFrame]
-        new_state.AddTime_pages = [HomeFrame]
-        new_state.home_buttons = ["Start", "Add"]        
-        new_state.Pause_buttons = ["End", "Continue"]
-        new_state.AddTime_buttons = ["Add", "Cancel"]
-        new_state.ClockedIn_buttons =  ["End", "Pause"]
+        self.home_pages = [ClockedInFrame, AddTimeFrame]
+        self.clockedIn_pages = [HomeFrame, PauseFrame]
+        self.pause_pages = [HomeFrame, ClockedInFrame]
+        self.addTime_pages = [HomeFrame]
+        self.home_buttons = ["Start", "Add"]        
+        self.pause_buttons = ["End", "Continue"]
+        self.addTime_buttons = ["Add", "Cancel"]
+        self.clockedIn_buttons =  ["End", "Pause"]
 
         print(new_state.currentDate)
         self.state = {
@@ -54,19 +54,19 @@ class AppUI(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        self.frames[HomeFrame] = HomeFrame(container, self)
-        self.frames[ClockedInFrame] = ClockedInFrame(container, self)
-        self.frames[PauseFrame] = PauseFrame(container, self)
-        self.frames[AddTimeFrame] = AddTimeFrame(container, self)
+        self.frames[HomeFrame] = HomeFrame(container, self, new_state)
+        self.frames[ClockedInFrame] = ClockedInFrame(container, self, new_state)
+        self.frames[PauseFrame] = PauseFrame(container, self, new_state)
+        self.frames[AddTimeFrame] = AddTimeFrame(container, self, new_state)
 
         for frame in self.frames.values():
             frame.grid(row=0, column=0, sticky="nsew")
-        self.show_frame(HomeFrame)
+        self.show_frame(HomeFrame, new_state)
 
-    def show_frame(self, frame_class):
+    def show_frame(self, frame_class, state):
         frame = self.frames[frame_class]
         if hasattr(frame, "refresh"):
-            frame.refresh()
+            frame.refresh(state)
         frame.tkraise()
 
     def parse_time(self, totalSession, currentTotal):

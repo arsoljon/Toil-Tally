@@ -16,13 +16,13 @@ class AppState:
     job_selected: str = ""
     
     home_pages: list[str] = field(default_factory=list)
-    Pause_pages: list[str] = field(default_factory=list)
-    AddTime_pages: list[str] = field(default_factory=list)
-    ClockedIn_pages: list[str] = field(default_factory=list)
+    pause_pages: list[str] = field(default_factory=list)
+    addTime_pages: list[str] = field(default_factory=list)
+    clockedIn_pages: list[str] = field(default_factory=list)
     home_buttons: list[str] = field(default_factory=list)
-    Pause_buttons: list[str] = field(default_factory=list)
-    AddTime_buttons: list[str] = field(default_factory=list)
-    ClockedIn_buttons: list[str] = field(default_factory=list)
+    pause_buttons: list[str] = field(default_factory=list)
+    addTime_buttons: list[str] = field(default_factory=list)
+    clockedIn_buttons: list[str] = field(default_factory=list)
     
     style: str = ""
     size: int = 0
@@ -41,9 +41,9 @@ class AppState:
             self.available_jobs = ["Devops", "Stonks"]
             self.lengthOfPauseSession = "00:00:00"
 
-            self.job_selected = ""
+            self.job_selected = "Other"
             self.style = "Arial"
-            self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"},
+            self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"}
 
             self.size = int(16 * .8)
 

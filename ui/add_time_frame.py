@@ -1,19 +1,19 @@
 import tkinter as tk
 
 class AddTimeFrame(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, state):
         super().__init__(parent)
         self.controller = controller
-        self.currentDate = controller.state["currentDate"]
-        self.totalTime = controller.state["totalTime"]
-        self.timeSelection = controller.state["add timeSelection"]
-        self.buttonLabels = controller.state["AddTime buttons"]
-        self.selected = controller.state["job_selected"]
-        self.pages = controller.state["AddTime pages"]
-        self.jobDurations = controller.state["job_durations"]
+        self.currentDate = state.currentDate
+        self.totalTime = state.totalTime
+        self.timeSelection = state.add_timeSelection
+        self.buttonLabels = controller.addTime_buttons
+        self.selected = tk.StringVar(value=state.job_selected)
+        self.pages = controller.addTime_pages
+        self.jobDurations = state.job_durations
         #text
-        self.style = controller.state["style"]
-        self.size = controller.state["size"]
+        self.style = state.style
+        self.size = state.size
 
         self.grid(padx=1, pady=1)
         self.label_currentDate = tk.Label(self, text=f"Date: {self.currentDate}", font=(self.style, self.size))
@@ -41,13 +41,13 @@ class AddTimeFrame(tk.Frame):
         '''
     
         #buttons
-        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click(controller, self.buttonLabels[0]))
+        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click(controller, self.buttonLabels[0], state))
         self.button1.grid(row=1, column=0)
-        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click(controller, self.buttonLabels[1]))
+        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click(controller, self.buttonLabels[1], state))
         self.button2.grid(row=2, column=0)
-        self.refresh()
+        self.refresh(state)
 
-    def on_click(self, controller, buttonLabel):
+    def on_click(self, controller, buttonLabel, state):
         if(buttonLabel == self.buttonLabels[0]):
             #add time
             print(f"{self.buttonLabels[0]}!")
@@ -70,13 +70,13 @@ class AddTimeFrame(tk.Frame):
             updated_total = controller.parse_time(total_entry, previous_total )
             self.jobDurations[name_of_job] = updated_total
             self.controller.state["job_durations"] = self.jobDurations
-            controller.show_frame(self.pages[0])
+            controller.show_frame(self.pages[0], state)
         else:
             #cancel
             print(f"{self.buttonLabels[1]}!")
-            controller.show_frame(self.pages[0])
+            controller.show_frame(self.pages[0], state)
 
-    def refresh(self):
+    def refresh(self, state):
         for widget in self.time_frame.winfo_children():
             widget.destroy()
         if (self.selected.get() == "Other"):
