@@ -1,4 +1,19 @@
 class TimeService():
+    def add_session_to_job(self, state):
+        hh, mm, ss = self.parse_time(state.job_durations[state.currentJob]) 
+        current_duration = self.time_to_seconds([hh, mm, ss])
+        total = state.session_job_seconds + current_duration
+        formatted_total = self.parse_seconds(total)
+        state.job_durations[state.currentJob] = self.time_to_string(formatted_total)
+        print(f"new job total: {state.job_durations}")
+
+    def time_to_seconds(self, time):
+        hh, mm, ss = time
+        seconds = hh // 3600
+        seconds += mm // 60
+        seconds += ss
+        return seconds 
+
     def reset_job_status(self, state):
         state.running_job = False
         state.running_pause = False 

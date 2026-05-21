@@ -45,4 +45,5 @@ class PauseFrame(tk.Frame):
     def update_display(self, state):
         seconds = state.session_pause_seconds
         hh, mm, ss = self.time_service.parse_seconds(seconds)
-        self.label_lengthOfPausedSession.config(text=f"{hh:02}:{mm:02}:{ss:02}")
+        self.label_lengthOfSession.config(text=f"")
+        self.label_lengthOfPausedSession.config(text=f"Paused for: {hh:02}:{mm:02}:{ss:02}")

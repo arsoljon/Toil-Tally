@@ -6,8 +6,8 @@ class ClockedInFrame(tk.Frame):
         super().__init__(parent)
         state.running = True
         self.time_service = TimeService()
-        self.currentDate = state.currentDate
         self.controller = controller
+        self.currentDate = state.currentDate
         #self.currentJob = controller.state["currentJob"]
         self.lengthOfSession = state.lengthOfSession
         self.buttonLabels = controller.clockedIn_buttons
@@ -23,6 +23,8 @@ class ClockedInFrame(tk.Frame):
         
         self.label_currentDate = tk.Label(self, text=f"Date: {self.currentDate}", font=(style, size))
         self.label_currentDate.grid(row=0, column=0, sticky="w")
+        self.label_totalTime = tk.Label(self, text="", font=(style, size))
+        self.label_totalTime.grid(row=0, column=1, sticky="ne")
         
         #self.label_currentJob = tk.Label(self, text= f"{self.currentJob}", font=(style, size))
         self.label_currentJob = tk.Label(self, text= "", font=(style, size))
@@ -38,14 +40,16 @@ class ClockedInFrame(tk.Frame):
     def on_click(self, controller, buttonLabel, state):
         if(buttonLabel == self.buttonLabels[0]):
             #end
+            self.time_service.add_session_to_job(state)
+            
             totalSession = self.lengthOfSession
             jobDurations = state.job_durations
             currentJob = state.currentJob
             currentTotal = jobDurations[currentJob]
 
             #parse the time of session and total
-            updated_total = controller.parse_time(totalSession, currentTotal)
-            jobDurations[currentJob] = updated_total
+            #updated_total = controller.parse_time(totalSession, currentTotal)
+            #jobDurations[currentJob] = updated_total
             state.job_durations = jobDurations
             print(f"{self.buttonLabels[0]}!")
             controller.show_frame(self.pages[0], state)
@@ -59,9 +63,8 @@ class ClockedInFrame(tk.Frame):
         size = state.size
         currentJob = state.currentJob
         self.totalTime = state.job_durations[currentJob]
-        self.label_totalTime = tk.Label(self, text=f"Total Time: {self.totalTime}", font=(style, size))
-        self.label_totalTime.grid(row=0, column=1, sticky="ne")
-        
+
+        self.label_totalTime.config(text=f"{currentJob}: {self.totalTime}")
         self.label_currentJob.config(text=state.currentJob)
 
     def update_display(self, state):

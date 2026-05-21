@@ -11,7 +11,7 @@ class HomeFrame(tk.Frame):
         self.pages = controller.home_pages
         style = state.style
         size = state.size
-        self.selected = tk.StringVar(value=state.job_selected)
+        self.selected = tk.StringVar(value="Other")
 
         #text
         self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(state.style, state.size))
@@ -25,7 +25,18 @@ class HomeFrame(tk.Frame):
         self.button1.grid(row=1, column=0, sticky="w")
         self.button2 = tk.Button(self, text=controller.home_buttons[1], command=lambda: self.on_click(controller, controller.home_buttons[1], state))
         self.button2.grid(row=1, column=1, sticky="e")
-        
+        #radioButtons
+        labels_jobs = state.labels_for_jobs
+        self.radioButtons = []
+        for i, job in enumerate(labels_jobs):
+            rb = tk.Radiobutton(
+                self,
+                text=job,
+                variable=self.selected,
+                value=job
+            )
+            rb.grid(row=i+1, column= 1)
+            self.radioButtons.append(rb)
         self.refresh(state)
 
     def on_click(self, controller, buttonLabel, state):
@@ -42,14 +53,5 @@ class HomeFrame(tk.Frame):
     
     def refresh(self, state):
         #radiobuttons
-        labels_jobs = state.labels_for_jobs
-        for i, job in enumerate(labels_jobs):
-            rb = tk.Radiobutton(
-                self,
-                text=job,
-                variable=state.job_selected,
-                value=job
-            )
-            rb.grid(row=i+1, column= 1)
-        print(state.job_durations)
+        print(self.selected.get())
         
