@@ -5,12 +5,14 @@ from ui.add_time_frame import AddTimeFrame
 from ui.pause_frame import PauseFrame
 from ui.clock_in_time_frame import ClockedInFrame
 from model.app_state import AppState
+from services.time_services import TimeService 
 
 class AppUI(tk.Tk):
     def __init__(self):
         super().__init__()
         new_state = AppState()
         new_state.setup()
+        self.time_service = TimeService()
         
         self.home_pages = [ClockedInFrame, AddTimeFrame]
         self.clockedIn_pages = [HomeFrame, PauseFrame]
@@ -81,30 +83,19 @@ class AppUI(tk.Tk):
                 self.after_cancel(self.tick_job)
                 self.tick_job = None
             if frame_class == ClockedInFrame:
-                state.session_pause_seconds = 0
-                state.running_job = True
-                state.running_pause = False
+                self.time_service.doing_job(state)
             else:
-                state.running_job = False
-                state.running_pause = True 
+                self.time_service.taking_break(state)
             self.tick(state)          
         else:
             ###place add time service here
-            state.running_job = False
-            state.running_pause = False 
-            state.session_job_seconds = 0
-            state.session_pause_seconds = 0
-            state.elapsed_seconds = 0
+            self.time_service.reset_job_status(state)
             if self.tick_job is not None:
                 self.after_cancel(self.tick_job)
                 self.tick_job = None
 
     def tick(self, state):
-        if state.running_job: 
-            state.session_job_seconds += 1
-        elif state.running_pause:
-            state.session_pause_seconds += 1
-        else: 
+        if not self.time_service.is_running(state):
             return 
         self.current_frame.update_display(state)
         self.tick_job = self.after(1000,self.tick, state)

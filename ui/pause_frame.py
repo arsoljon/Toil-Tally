@@ -1,8 +1,10 @@
 import tkinter as tk
+from services.time_services import TimeService
 
 class PauseFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
+        self.time_service = TimeService()
         self.currentDate = state.currentDate
         self.totalTime = state.totalTime
         self.lengthOfSession = state.lengthOfSession
@@ -42,8 +44,5 @@ class PauseFrame(tk.Frame):
 
     def update_display(self, state):
         seconds = state.session_pause_seconds
-        print("paused : ",  seconds)
-        hh = seconds // 3600
-        mm = (seconds % 3600) // 60
-        ss = seconds % 60
+        hh, mm, ss = self.time_service.parse_seconds(seconds)
         self.label_lengthOfPausedSession.config(text=f"{hh:02}:{mm:02}:{ss:02}")

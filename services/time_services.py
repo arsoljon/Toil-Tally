@@ -1,4 +1,34 @@
-class AddTimeService():
+class TimeService():
+    def reset_job_status(self, state):
+        state.running_job = False
+        state.running_pause = False 
+        state.session_job_seconds = 0
+        state.session_pause_seconds = 0
+
+    def is_running(self, state):
+        if state.running_job: 
+            state.session_job_seconds += 1
+        elif state.running_pause:
+            state.session_pause_seconds += 1
+        else:
+            return False
+        return True
+
+    def doing_job(self, state):
+        state.session_pause_seconds = 0
+        state.running_job = True
+        state.running_pause = False
+        
+    def taking_break(self, state):
+        state.running_job = False
+        state.running_pause = True 
+        
+    def parse_seconds(self, seconds):
+        hh = seconds // 3600
+        mm = (seconds % 3600) // 60
+        ss = seconds % 60
+        return hh, mm, ss
+    
     def add_times(self, sessionTime, currentTime):
         session = self.parse_time(sessionTime)
         current = self.parse_time(currentTime)
