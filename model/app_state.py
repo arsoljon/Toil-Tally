@@ -10,6 +10,16 @@ class AppState:
     lengthOfSession: str = ""
     labels_for_jobs: list[str] = field(default_factory=list)
     job_durations: dict[str, str] = field(default_factory=dict)
+    currentPauseTime: str = ""
+    startPauseTime: str = ""
+    currentSession: str = ""
+    startTime: str = ""
+    elapsed_seconds: int = 0
+    running_job: bool = False
+    running_pause: bool = False
+    session_job_seconds: int= 0
+    session_pause_seconds: int = 0
+
     
     add_timeSelection: str = ""
     lengthOfPauseSession: str = ""
@@ -35,11 +45,19 @@ class AppState:
             self.currentDate =  time.strftime("%Y-%m-%d")
             self.labels_for_jobs = ["Devops", "Stonks", "Other"]
             self.todaysTotalTime = "00:26:33"
-            self.lengthOfSession = "01:30:31"
             self.currentJob = "Devops"
             self.add_timeSelection = "00:00:00"
             self.available_jobs = ["Devops", "Stonks"]
             self.lengthOfPauseSession = "00:00:00"
+            self.currentPauseTime = "00:00:00"
+            self.startPauseTime = "00:00:00"
+            self.lengthOfSession = "01:30:31"
+            self.currentSession = "00:00:00"
+            self.startTime = "00:00:00"
+            self.running_job = False
+            self.running_pause = False
+            self.session_job_seconds = 0
+            self.session_pause_seconds = 0
 
             self.job_selected = "Other"
             self.style = "Arial"

@@ -7,8 +7,8 @@ class HomeFrame(tk.Frame):
         self.currentDate = state.currentDate
         self.totalTime = state.totalTime
         self.todaysTotalTime = state.todaysTotalTime
-        self.buttonLabels = state.home_buttons
-        self.pages = state.home_pages
+        self.buttonLabels = controller.home_buttons
+        self.pages = controller.home_pages
         style = state.style
         size = state.size
         self.selected = tk.StringVar(value=state.job_selected)

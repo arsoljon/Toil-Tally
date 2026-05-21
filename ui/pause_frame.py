@@ -1,5 +1,4 @@
 import tkinter as tk
-from services.pause_services import PauseService
 
 class PauseFrame(tk.Frame):
     def __init__(self, parent, controller, state):
@@ -41,3 +40,10 @@ class PauseFrame(tk.Frame):
             print(f"{self.buttonLabels[1]}!")
             controller.show_frame(self.pages[1], state)
 
+    def update_display(self, state):
+        seconds = state.session_pause_seconds
+        print("paused : ",  seconds)
+        hh = seconds // 3600
+        mm = (seconds % 3600) // 60
+        ss = seconds % 60
+        self.label_lengthOfPausedSession.config(text=f"{hh:02}:{mm:02}:{ss:02}")

@@ -3,6 +3,7 @@ import tkinter as tk
 class ClockedInFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
+        state.running = True
         self.currentDate = state.currentDate
         self.controller = controller
         #self.currentJob = controller.state["currentJob"]
@@ -60,3 +61,11 @@ class ClockedInFrame(tk.Frame):
         self.label_totalTime.grid(row=0, column=1, sticky="ne")
         
         self.label_currentJob.config(text=state.currentJob)
+
+    def update_display(self, state):
+        seconds = state.session_job_seconds
+        print("clocked in : ", seconds)
+        hh = seconds // 3600
+        mm = (seconds % 3600) // 60
+        ss = seconds % 60
+        self.label_lengthOfSession.config(text=f"{hh:02}:{mm:02}:{ss:02}")

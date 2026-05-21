@@ -21,6 +21,10 @@ class AppUI(tk.Tk):
         self.addTime_buttons = ["Add", "Cancel"]
         self.clockedIn_buttons =  ["End", "Pause"]
 
+        self.start_time = "00:00:00"
+        self.current_time = "00:00:00"
+        self.tick_job = None
+
         print(new_state.currentDate)
         self.state = {
             "currentDate" : time.strftime("%Y-%m-%d"),
@@ -61,13 +65,49 @@ class AppUI(tk.Tk):
 
         for frame in self.frames.values():
             frame.grid(row=0, column=0, sticky="nsew")
-        self.show_frame(HomeFrame, new_state)
+        self.current_frame = HomeFrame
+        self.show_frame(self.current_frame, new_state)
 
     def show_frame(self, frame_class, state):
+        self.current_frame = self.frames[frame_class]
         frame = self.frames[frame_class]
         if hasattr(frame, "refresh"):
             frame.refresh(state)
         frame.tkraise()
+
+        ticking_frames = [ClockedInFrame, PauseFrame]
+        if frame_class in ticking_frames:
+            if self.tick_job is not None:
+                self.after_cancel(self.tick_job)
+                self.tick_job = None
+            if frame_class == ClockedInFrame:
+                state.session_pause_seconds = 0
+                state.running_job = True
+                state.running_pause = False
+            else:
+                state.running_job = False
+                state.running_pause = True 
+            self.tick(state)          
+        else:
+            ###place add time service here
+            state.running_job = False
+            state.running_pause = False 
+            state.session_job_seconds = 0
+            state.session_pause_seconds = 0
+            state.elapsed_seconds = 0
+            if self.tick_job is not None:
+                self.after_cancel(self.tick_job)
+                self.tick_job = None
+
+    def tick(self, state):
+        if state.running_job: 
+            state.session_job_seconds += 1
+        elif state.running_pause:
+            state.session_pause_seconds += 1
+        else: 
+            return 
+        self.current_frame.update_display(state)
+        self.tick_job = self.after(1000,self.tick, state)
 
     def parse_time(self, totalSession, currentTotal):
         #parse the time of session and total
