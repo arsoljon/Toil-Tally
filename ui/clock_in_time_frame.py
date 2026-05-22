@@ -41,17 +41,6 @@ class ClockedInFrame(tk.Frame):
         if(buttonLabel == self.buttonLabels[0]):
             #end
             self.time_service.add_session_to_job(state)
-            
-            totalSession = self.lengthOfSession
-            jobDurations = state.job_durations
-            currentJob = state.currentJob
-            currentTotal = jobDurations[currentJob]
-
-            #parse the time of session and total
-            #updated_total = controller.parse_time(totalSession, currentTotal)
-            #jobDurations[currentJob] = updated_total
-            state.job_durations = jobDurations
-            print(f"{self.buttonLabels[0]}!")
             controller.show_frame(self.pages[0], state)
         else:
             #pause

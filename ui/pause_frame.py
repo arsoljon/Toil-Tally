@@ -18,7 +18,7 @@ class PauseFrame(tk.Frame):
 
         self.label_currentDate = tk.Label(self, text=f"Date: {self.currentDate}", font=(style, size))
         self.label_currentDate.grid(row=0, column=0, sticky="w")
-        self.label_totalTime = tk.Label(self, text=f"Total Time: {self.totalTime}", font=(style, size))
+        self.label_totalTime = tk.Label(self, text="", font=(style, size))
         self.label_totalTime.grid(row=0, column=1, sticky="ne")
         
         self.label_lengthOfSession = tk.Label(self, text= f"Total: {self.lengthOfSession}", font=(style, size))
@@ -35,6 +35,7 @@ class PauseFrame(tk.Frame):
         if(buttonLabel == self.buttonLabels[0]):
             #end, go to home frame
             #add the current session time to the current jobs time
+            self.time_service.add_session_to_job(state)
             print(f"{self.buttonLabels[0]}!")
             controller.show_frame(self.pages[0], state)
         else:
@@ -45,5 +46,7 @@ class PauseFrame(tk.Frame):
     def update_display(self, state):
         seconds = state.session_pause_seconds
         hh, mm, ss = self.time_service.parse_seconds(seconds)
-        self.label_lengthOfSession.config(text=f"")
-        self.label_lengthOfPausedSession.config(text=f"Paused for: {hh:02}:{mm:02}:{ss:02}")
+        time = self.time_service.parse_seconds(state.session_job_seconds)
+        self.label_lengthOfSession.config(text=f"{state.currentJob} : {self.time_service.time_to_string(time)}")
+        self.label_lengthOfPausedSession.config(text=f"Paused for: {self.time_service.time_to_string([hh, mm, ss])}")
+        self.label_totalTime.config(text=f"Time Spent on {state.currentJob}: {state.job_durations[state.currentJob]}")

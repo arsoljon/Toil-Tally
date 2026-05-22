@@ -1,16 +1,19 @@
 class TimeService():
     def add_session_to_job(self, state):
-        hh, mm, ss = self.parse_time(state.job_durations[state.currentJob]) 
-        current_duration = self.time_to_seconds([hh, mm, ss])
-        total = state.session_job_seconds + current_duration
+        #current duration and increment the current sessions time
+        #both are strings and require parsing.
+        original_duration = self.parse_time(state.job_durations[state.currentJob]) 
+        duration_seconds = self.time_to_seconds(original_duration)
+        total = state.session_job_seconds + duration_seconds
         formatted_total = self.parse_seconds(total)
         state.job_durations[state.currentJob] = self.time_to_string(formatted_total)
         print(f"new job total: {state.job_durations}")
 
+
     def time_to_seconds(self, time):
         hh, mm, ss = time
-        seconds = hh // 3600
-        seconds += mm // 60
+        seconds = hh * 3600
+        seconds += mm * 60
         seconds += ss
         return seconds 
 
@@ -87,3 +90,22 @@ class TimeService():
     def time_to_string(self, time):
         return f"{time[0]:02}:{time[1]:02}:{time[2]:02}"
     
+    def add_new_job(self, state, job):
+        #add new job
+        state.labels_for_jobs.append(job)
+        state.currentJob = job
+        state.job_durations[state.currentJob] = "00:00:00"
+
+    def increment_duration(self, state, time):
+        if(state.currentJob not in state.job_durations):
+            state.job_durations[state.currentJob] = self.time_to_string(time)
+        else:
+            previous_total = state.job_durations[state.currentJob]
+        
+            hh = time[0]
+            mm = time[1]            
+            ss = time[2]
+
+            entry = self.time_to_string([hh, mm, ss])
+            total = self.add_times(entry, previous_total)
+            state.job_durations[state.currentJob] = total

@@ -1,14 +1,16 @@
 import tkinter as tk
+from services.time_services import TimeService
 
 class AddTimeFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
         self.controller = controller
+        self.time_service = TimeService()
         self.currentDate = state.currentDate
         self.totalTime = state.totalTime
         self.timeSelection = state.add_timeSelection
         self.buttonLabels = controller.addTime_buttons
-        self.selected = tk.StringVar(value=state.job_selected)
+        self.selected = tk.StringVar(value=state.currentJob)
         self.pages = controller.addTime_pages
         self.jobDurations = state.job_durations
         #text
@@ -41,45 +43,39 @@ class AddTimeFrame(tk.Frame):
         '''
     
         #buttons
-        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click(controller, self.buttonLabels[0], state))
+        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.add_time_on_click(controller, state))
         self.button1.grid(row=1, column=0)
-        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click(controller, self.buttonLabels[1], state))
+        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.cancel_on_click(controller, state))
         self.button2.grid(row=2, column=0)
         self.refresh(state)
 
-    def on_click(self, controller, buttonLabel, state):
-        if(buttonLabel == self.buttonLabels[0]):
-            #add time
-            print(f"{self.buttonLabels[0]}!")
-            name_of_job = self.selected.get()
-            
-            previous_total = ""
-            if (self.selected.get() == "Other"):
-                #add new job
-                if(len(self.entry.get()) > 0):
-                    name_of_job = self.entry.get()
-                    self.controller.state["labels_for_jobs"].append(name_of_job)
-                    
-            if(name_of_job not in self.jobDurations):
-                previous_total = "00:00:00"
+    def add_time_on_click(self, controller, state):
+        #add time
+        if(state.currentJob == "Other"):
+            if(len(self.entry.get()) <= 0 or
+                self.entry.get().lower() in (
+                    key.lower() for key in state.job_durations.keys()
+                )
+            ):
+                return 
             else:
-                previous_total = self.jobDurations[name_of_job]
-            new_hh = int(self.hour.get())
-            new_mm = int(self.minute.get())            
-            total_entry = f"{new_hh:2}:{new_mm:2}:00"
-            updated_total = controller.parse_time(total_entry, previous_total )
-            self.jobDurations[name_of_job] = updated_total
-            self.controller.state["job_durations"] = self.jobDurations
-            controller.show_frame(self.pages[0], state)
-        else:
-            #cancel
-            print(f"{self.buttonLabels[1]}!")
-            controller.show_frame(self.pages[0], state)
+                self.time_service.add_new_job(state, self.entry.get())
+        session = [int(self.hour.get()), int(self.minute.get()), 0]
+        print(f"session time : {session}")
+        state.session_job_seconds = self.time_service.time_to_seconds(session)
+        print(f"session secs : {state.session_job_seconds}")
+        self.time_service.add_session_to_job(state)
+        #self.time_service.increment_duration(state, [int(self.hour.get()), int(self.minute.get()), 0])
+
+        controller.show_frame(self.pages[0], state)
+
+    def cancel_on_click(self, controller, state):
+        controller.show_frame(self.pages[0], state)
 
     def refresh(self, state):
         for widget in self.time_frame.winfo_children():
             widget.destroy()
-        if (self.selected.get() == "Other"):
+        if (state.currentJob == "Other"):
             tk.Label(
                 self.time_frame, 
                 text="New Job:",
@@ -89,8 +85,8 @@ class AddTimeFrame(tk.Frame):
             self.entry.pack(side="left")
         else:
             tk.Label(
-                self.time_frame,
-                text=self.selected.get(),
+                self.time_frame, 
+                text=state.currentJob,
                 font=(self.style, self.size)
             ).pack(side="left", padx=10)
 

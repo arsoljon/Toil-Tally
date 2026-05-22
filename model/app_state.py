@@ -44,7 +44,7 @@ class AppState:
             self.totalTime =  "01:23:45"
             self.currentDate =  time.strftime("%Y-%m-%d")
             self.labels_for_jobs = ["Devops", "Stonks", "Other"]
-            self.todaysTotalTime = "00:26:33"
+            self.todaysTotalTime = "00:00:00"
             self.currentJob = "Devops"
             self.add_timeSelection = "00:00:00"
             self.available_jobs = ["Devops", "Stonks"]
