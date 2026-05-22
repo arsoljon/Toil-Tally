@@ -1,5 +1,4 @@
 import tkinter as tk
-import time
 from ui.home_frame import HomeFrame 
 from ui.add_time_frame import AddTimeFrame
 from ui.pause_frame import PauseFrame
@@ -27,32 +26,6 @@ class AppUI(tk.Tk):
         self.current_time = "00:00:00"
         self.tick_job = None
 
-        print(new_state.currentDate)
-        self.state = {
-            "currentDate" : time.strftime("%Y-%m-%d"),
-            "totalTime" : "01:23:45",
-            "todaysTotalTime" : "00:26:33",
-            "Home buttons" : ["Start", "Add"],
-            "Home pages" : [ClockedInFrame, AddTimeFrame],
-            "labels_for_jobs" : ["Devops", "Stonks", "Other"],
-            "ClockedIn pages" : [HomeFrame, PauseFrame],
-            "currentJob" : "Devops",
-            "lengthOfSession" : "01:30:31",
-            "ClockedIn buttons": ["End", "Pause"],
-            "AddTime pages" : [HomeFrame],
-            "add timeSelection" : "00:00:00",
-            "AddTime buttons" : ["Add", "Cancel"],
-            "Pause pages" : [HomeFrame, ClockedInFrame],
-            "lengthOfPauseSession" : "00:00:00",
-            "Pause buttons" : ["End", "Continue"],
-            "job_selected" : tk.StringVar(value="Other"),
-            "job_durations" : {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"},
-            "style" : "Arial",
-            "size" : int(16 * .8),
-        }   
-        self.currentDate = time.strftime("%Y-%m-%d")
-        self.totalTime = "01:23:45"
-    
         self.geometry("500x300+100+600")
         container = tk.Frame(self)
         container.pack(fill="both", expand=True)
@@ -88,7 +61,6 @@ class AppUI(tk.Tk):
                 self.time_service.taking_break(state)
             self.tick(state)          
         else:
-            ###place add time service here
             self.time_service.reset_job_status(state)
             if self.tick_job is not None:
                 self.after_cancel(self.tick_job)
@@ -99,20 +71,3 @@ class AppUI(tk.Tk):
             return 
         self.current_frame.update_display(state)
         self.tick_job = self.after(1000,self.tick, state)
-
-    def parse_time(self, totalSession, currentTotal):
-        #parse the time of session and total
-        session_hh, session_mm, session_ss = map(int, totalSession.split(":"))
-        total_hh, total_mm, total_ss = map(int, currentTotal.split(":"))
-        updated_ss = session_ss + total_ss
-        updated_mm = session_mm + total_mm
-        updated_hh = session_hh + total_hh
-        if(updated_ss > 59):
-            remainder = updated_ss - 60
-            updated_mm = updated_mm + 1
-            updated_ss = remainder
-        if(updated_mm > 59):
-            remainder = updated_mm - 60
-            updated_hh = updated_hh + 1
-            updated_mm = remainder
-        return f"{updated_hh:02}:{updated_mm:02}:{updated_ss:02}"
