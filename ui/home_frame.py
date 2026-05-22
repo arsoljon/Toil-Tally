@@ -18,18 +18,7 @@ class HomeFrame(tk.Frame):
         self.button1.grid(row=1, column=0, sticky="w")
         self.button2 = tk.Button(self, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
         self.button2.grid(row=1, column=1, sticky="e")
-        #radioButtons
-        labels_jobs = state.labels_for_jobs
-        self.radioButtons = []
-        for i, job in enumerate(labels_jobs):
-            rb = tk.Radiobutton(
-                self,
-                text=job,
-                variable=self.selected,
-                value=job
-            )
-            rb.grid(row=i+1, column= 1)
-            self.radioButtons.append(rb)
+
         self.refresh(state)
 
     def on_click_clock_in(self, controller, state):
@@ -58,5 +47,16 @@ class HomeFrame(tk.Frame):
     
     def refresh(self, state):
         #radiobuttons
+        labels_jobs = state.labels_for_jobs
+        self.radioButtons = []
+        for i, job in enumerate(labels_jobs):
+            rb = tk.Radiobutton(
+                self,
+                text=job,
+                variable=self.selected,
+                value=job
+            )
+            rb.grid(row=i+1, column= 1, sticky="w")
+            self.radioButtons.append(rb)
         print(self.selected.get())
         
