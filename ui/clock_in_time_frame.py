@@ -53,7 +53,7 @@ class ClockedInFrame(tk.Frame):
         currentJob = state.currentJob
         self.totalTime = state.job_durations[currentJob]
 
-        self.label_totalTime.config(text=f"{currentJob}: {self.totalTime}")
+        self.label_totalTime.config(text=f"Time Spent on {state.currentJob}: {state.job_durations[state.currentJob]}")
         self.label_currentJob.config(text=state.currentJob)
 
     def update_display(self, state):
