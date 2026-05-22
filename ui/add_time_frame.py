@@ -6,7 +6,7 @@ class AddTimeFrame(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         self.time_service = TimeService()
-        
+
         #text
         self.style = state.style
         self.size = state.size
@@ -40,11 +40,8 @@ class AddTimeFrame(tk.Frame):
             else:
                 self.time_service.add_new_job(state, self.entry.get())
         session = [int(self.hour.get()), int(self.minute.get()), 0]
-        print(f"session time : {session}")
         state.session_job_seconds = self.time_service.time_to_seconds(session)
-        print(f"session secs : {state.session_job_seconds}")
         self.time_service.add_session_to_job(state)
-        #self.time_service.increment_duration(state, [int(self.hour.get()), int(self.minute.get()), 0])
 
         controller.show_frame(controller.addTime_pages[0], state)
 

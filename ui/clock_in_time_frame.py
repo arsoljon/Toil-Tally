@@ -7,11 +7,7 @@ class ClockedInFrame(tk.Frame):
         state.running = True
         self.time_service = TimeService()
         self.controller = controller
-        self.currentDate = state.currentDate
-        #self.currentJob = controller.state["currentJob"]
-        self.lengthOfSession = state.lengthOfSession
         self.buttonLabels = controller.clockedIn_buttons
-        self.pages = controller.clockedIn_pages
         #text
         style = state.style
         size = state.size
@@ -21,15 +17,14 @@ class ClockedInFrame(tk.Frame):
         self.grid_columnconfigure(3, weight=1)
         
         
-        self.label_currentDate = tk.Label(self, text=f"Date: {self.currentDate}", font=(style, size))
+        self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(style, size))
         self.label_currentDate.grid(row=0, column=0, sticky="w")
         self.label_totalTime = tk.Label(self, text="", font=(style, size))
         self.label_totalTime.grid(row=0, column=1, sticky="ne")
         
-        #self.label_currentJob = tk.Label(self, text= f"{self.currentJob}", font=(style, size))
         self.label_currentJob = tk.Label(self, text= "", font=(style, size))
         self.label_currentJob.grid(row=2, column=0, sticky = "w")
-        self.label_lengthOfSession = tk.Label(self, text= f"Total: {self.lengthOfSession}", font=(style, size))
+        self.label_lengthOfSession = tk.Label(self, text= f"Total: {state.lengthOfSession}", font=(style, size))
         self.label_lengthOfSession.grid(row=3, column=0, sticky = "w")
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click(controller, self.buttonLabels[0], state))
@@ -41,11 +36,10 @@ class ClockedInFrame(tk.Frame):
         if(buttonLabel == self.buttonLabels[0]):
             #end
             self.time_service.add_session_to_job(state)
-            controller.show_frame(self.pages[0], state)
+            controller.show_frame(controller.clockedIn_pages[0], state)
         else:
             #pause
-            print(f"{self.buttonLabels[1]}!")
-            controller.show_frame(self.pages[1], state)
+            controller.show_frame(controller.clockedIn_pages[1], state)
 
     def refresh(self, state):
         style = state.style
