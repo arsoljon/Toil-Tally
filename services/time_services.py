@@ -7,7 +7,18 @@ class TimeService():
         total = state.session_job_seconds + duration_seconds
         formatted_total = self.parse_seconds(total)
         state.job_durations[state.currentJob] = self.time_to_string(formatted_total)
-        print(f"new job total: {state.job_durations}")
+
+        overall_total = self.parse_time(state.totalTime)
+        overall_total_seconds = self.time_to_seconds(overall_total)
+        formatted_overall_total = self.parse_seconds(state.session_job_seconds + overall_total_seconds)
+        state.totalTime = self.time_to_string(formatted_overall_total)
+
+        todays_total = self.parse_time(state.todaysTotalTime)
+        todays_total_seconds = self.time_to_seconds(todays_total)
+        formatted_todays_total = self.parse_seconds(state.session_job_seconds + todays_total_seconds)
+        state.todaysTotalTime = self.time_to_string(formatted_todays_total)
+
+
 
 
     def time_to_seconds(self, time):
