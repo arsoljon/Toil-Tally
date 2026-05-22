@@ -3,15 +3,15 @@ from ui.home_frame import HomeFrame
 from ui.add_time_frame import AddTimeFrame
 from ui.pause_frame import PauseFrame
 from ui.clock_in_time_frame import ClockedInFrame
-from model.app_state import AppState
-from services.time_services import TimeService 
+from model.app_state import AppState 
+from services.status_service import StatusService
 
 class AppUI(tk.Tk):
     def __init__(self):
         super().__init__()
         new_state = AppState()
         new_state.setup()
-        self.time_service = TimeService()
+        self.status_service = StatusService()
         
         self.home_pages = [ClockedInFrame, AddTimeFrame]
         self.clockedIn_pages = [HomeFrame, PauseFrame]
@@ -56,18 +56,18 @@ class AppUI(tk.Tk):
                 self.after_cancel(self.tick_job)
                 self.tick_job = None
             if frame_class == ClockedInFrame:
-                self.time_service.doing_job(state)
+                self.status_service.doing_job(state)
             else:
-                self.time_service.taking_break(state)
+                self.status_service.taking_break(state)
             self.tick(state)          
         else:
-            self.time_service.reset_job_status(state)
+            self.status_service.reset_job_status(state)
             if self.tick_job is not None:
                 self.after_cancel(self.tick_job)
                 self.tick_job = None
 
     def tick(self, state):
-        if not self.time_service.is_running(state):
+        if not self.status_service.is_running(state):
             return 
         self.current_frame.update_display(state)
         self.tick_job = self.after(1000,self.tick, state)
