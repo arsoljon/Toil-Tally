@@ -23,27 +23,13 @@ class HomeFrame(tk.Frame):
 
     def on_click_clock_in(self, controller, state):
         #clockIn
-        print(f"{controller.home_buttons[0]} : {self.selected.get()}!")
         state.currentJob = f"{self.selected.get()}"
         controller.show_frame(controller.home_pages[0], state)
 
     def on_click_add_data(self, controller, state):
         #manually add to job
         state.currentJob = f"{self.selected.get()}"
-        print(f"{controller.home_buttons[1]} : selected {self.selected.get()}, !")
         controller.show_frame(controller.home_pages[1], state)
-
-    def on_click(self, controller, buttonLabel, state):
-        if(buttonLabel == controller.home_buttons[0]):
-            #clockIn
-            print(f"{controller.home_buttons[0]} : {self.selected.get()}!")
-            state.currentJob = f"{self.selected.get()}"
-            controller.show_frame(controller.home_pages[0], state)
-        else:
-            #manually add to job
-            state.currentJob = f"{self.selected.get()}"
-            print(f"{controller.home_buttons[1]} : selected {self.selected.get()}, !")
-            controller.show_frame(controller.home_pages[1], state)
     
     def refresh(self, state):
         #radiobuttons
@@ -58,7 +44,6 @@ class HomeFrame(tk.Frame):
             )
             rb.grid(row=i+1, column= 1, sticky="w")
             self.radioButtons.append(rb)
-        print(self.selected.get())
         self.label_totalTime.config(text=f"Total Time {state.totalTime}")
         self.label_todaysTotalTime.config(text=f"Todays Total: {state.todaysTotalTime}")
         
