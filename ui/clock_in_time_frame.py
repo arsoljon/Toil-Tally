@@ -27,23 +27,21 @@ class ClockedInFrame(tk.Frame):
         self.label_lengthOfSession = tk.Label(self, text= f"Total: {state.lengthOfSession}", font=(style, size))
         self.label_lengthOfSession.grid(row=3, column=0, sticky = "w")
         #buttons
-        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click(controller, self.buttonLabels[0], state))
+        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click_end(controller, state))
         self.button1.grid(row=1, column=0)
-        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click(controller, self.buttonLabels[1], state))
+        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click_pause(controller, state))
         self.button2.grid(row=1, column=1)
     
-    def on_click(self, controller, buttonLabel, state):
-        if(buttonLabel == self.buttonLabels[0]):
-            #end
-            self.time_service.add_session_to_job(state)
-            controller.show_frame(controller.clockedIn_pages[0], state)
-        else:
-            #pause
-            controller.show_frame(controller.clockedIn_pages[1], state)
+    def on_click_end(self, controller, state):
+        #end
+        self.time_service.add_session_to_job(state)
+        controller.show_frame(controller.clockedIn_pages[0], state)
+
+    def on_click_pause(self, controller, state):
+        #pause
+        controller.show_frame(controller.clockedIn_pages[1], state)
 
     def refresh(self, state):
-        style = state.style
-        size = state.size
         currentJob = state.currentJob
         self.totalTime = state.job_durations[currentJob]
 
