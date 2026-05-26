@@ -32,7 +32,8 @@ class HomeFrame(tk.Frame):
         self.refresh(state)
 
     def on_click_undo(self, controller, state):
-        print("Undo")
+        self.delete_service.undo_deletion(state)
+        controller.show_frame(controller.home_pages[2], state)
 
     def on_click_delete(self, controller, state):
         #state.currentJob = f"{self.selected.get()}"
