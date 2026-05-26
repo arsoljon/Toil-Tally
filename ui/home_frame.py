@@ -29,6 +29,7 @@ class HomeFrame(tk.Frame):
 
         self.radiobuttons_frame = tk.Frame(self)
         self.radiobuttons_frame.grid(row=1, column=1)
+        
         self.refresh(state)
 
     def on_click_undo(self, controller, state):
@@ -66,6 +67,9 @@ class HomeFrame(tk.Frame):
             )
             rb.grid(row=i+1, column= 1, sticky="w")
             self.radioButtons.append(rb)
+        other_radioButton = tk.Radiobutton(self.radiobuttons_frame, text="Other", variable=self.selected, value="Other")
+        other_radioButton.grid(row=len(labels_jobs)+1, column=1, sticky="w")
+        self.radioButtons.append(other_radioButton)
         self.label_totalTime.config(text=f"Total Time {state.totalTime}")
         self.label_todaysTotalTime.config(text=f"Todays Total: {state.todaysTotalTime}")
         

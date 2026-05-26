@@ -32,7 +32,7 @@ class AppState:
         if self.default == True:
             self.totalTime =  "01:23:45"
             self.currentDate =  time.strftime("%Y-%m-%d")
-            self.labels_for_jobs = ["Devops", "Stonks", "Other"]
+            self.labels_for_jobs = ["Devops", "Stonks"]
             self.todaysTotalTime = "00:00:00"
             self.currentJob = "Devops"
 
@@ -47,7 +47,7 @@ class AppState:
             self.session_job_seconds = 0
             self.session_pause_seconds = 0
 
-            self.job_selected = "Other"
+            self.job_selected = ""
             self.style = "Arial"
             self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"}
             self.deleted_jobs = {}
