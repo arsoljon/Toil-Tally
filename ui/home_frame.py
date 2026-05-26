@@ -1,9 +1,11 @@
 import tkinter as tk
+from services.delete_service import DeleteService 
 
 class HomeFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
         self.controller = controller
+        self.delete_service = DeleteService()
         self.selected = tk.StringVar(value="Other")
 
         #text
@@ -27,7 +29,7 @@ class HomeFrame(tk.Frame):
         #clockIn
         #state.currentJob = f"{self.selected.get()}"
         #controller.show_frame(controller.home_pages[0], state)
-        print(controller.home_buttons[2])
+        self.delete_service.delete_job(state, self.selected.get())
 
     def on_click_clock_in(self, controller, state):
         #clockIn

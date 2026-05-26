@@ -11,6 +11,8 @@ class AppState:
     labels_for_jobs: list[str] = field(default_factory=list)
     job_durations: dict[str, str] = field(default_factory=dict)
     currentSession: str = ""
+
+    deleted_jobs: dict[str, str] = field(default_factory=dict)
     
     elapsed_seconds: int = 0
     running_job: bool = False
@@ -48,6 +50,7 @@ class AppState:
             self.job_selected = "Other"
             self.style = "Arial"
             self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"}
+            self.deleted_jobs = {}
 
             self.size = int(16 * .8)
 
