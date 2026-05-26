@@ -23,6 +23,8 @@ class HomeFrame(tk.Frame):
         self.button2 = tk.Button(self, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
         self.button2.grid(row=1, column=2, sticky="e")
 
+        self.radiobuttons_frame = tk.Frame(self)
+        self.radiobuttons_frame.grid(row=1, column=1)
         self.refresh(state)
 
     def on_click_delete(self, controller, state):
@@ -30,6 +32,7 @@ class HomeFrame(tk.Frame):
         #state.currentJob = f"{self.selected.get()}"
         #controller.show_frame(controller.home_pages[0], state)
         self.delete_service.delete_job(state, self.selected.get())
+        controller.show_frame(controller.home_pages[2], state)
 
     def on_click_clock_in(self, controller, state):
         #clockIn
@@ -42,12 +45,14 @@ class HomeFrame(tk.Frame):
         controller.show_frame(controller.home_pages[1], state)
     
     def refresh(self, state):
+        for widget in self.radiobuttons_frame.winfo_children():
+            widget.destroy()
         #radiobuttons
         labels_jobs = state.labels_for_jobs
         self.radioButtons = []
         for i, job in enumerate(labels_jobs):
             rb = tk.Radiobutton(
-                self,
+                self.radiobuttons_frame,
                 text=job,
                 variable=self.selected,
                 value=job

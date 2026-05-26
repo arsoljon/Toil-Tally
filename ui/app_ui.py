@@ -13,7 +13,7 @@ class AppUI(tk.Tk):
         new_state.setup()
         self.status_service = StatusService()
         
-        self.home_pages = [ClockedInFrame, AddTimeFrame]
+        self.home_pages = [ClockedInFrame, AddTimeFrame, HomeFrame]
         self.clockedIn_pages = [HomeFrame, PauseFrame]
         self.pause_pages = [HomeFrame, ClockedInFrame]
         self.addTime_pages = [HomeFrame]
