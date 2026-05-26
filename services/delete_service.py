@@ -1,4 +1,9 @@
+from services.time_services import TimeService
+
 class DeleteService:
+    def __init__(self):
+        self.timeservice = TimeService()
+
     def delete_job(self, state, job):
         if (job != "Other"):
             job_duration = state.job_durations[job]
@@ -9,6 +14,9 @@ class DeleteService:
             del state.job_durations[job]
             del state.labels_for_jobs[job_index]
             state.deleted_jobs[job] = job_duration
+            #remove from total time: 
+            diff = self.timeservice.get_difference(state.totalTime, state.deleted_jobs[job])
+            state.totalTime = diff
             print("jobs deleted: ", state.deleted_jobs)       
         else:
             print("Unable to delete")
@@ -21,5 +29,9 @@ class DeleteService:
             del state.deleted_jobs[job_key]
             state.job_durations[job_key] = job_time
             state.labels_for_jobs.append(job_key)
+            #update total
+            newTotal = self.timeservice.add_times(state.totalTime, job_time)
+            state.totalTime = newTotal
+
         else:
             print("Unable to Undo")
