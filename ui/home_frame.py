@@ -22,15 +22,19 @@ class HomeFrame(tk.Frame):
         self.add_delete_undo_frame.grid(row=1, column=2)
         self.button2 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
         self.button2.grid(row=1, column=1, sticky="e")
-        self.button2 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
-        self.button2.grid(row=1, column=2, sticky="e")
+        self.button3 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
+        self.button3.grid(row=1, column=2, sticky="e")
+        self.button4 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[3], command=lambda: self.on_click_undo(controller, state))
+        self.button4.grid(row=1, column=3, sticky="e")
 
         self.radiobuttons_frame = tk.Frame(self)
         self.radiobuttons_frame.grid(row=1, column=1)
         self.refresh(state)
 
+    def on_click_undo(self, controller, state):
+        print("Undo")
+
     def on_click_delete(self, controller, state):
-        #clockIn
         #state.currentJob = f"{self.selected.get()}"
         #controller.show_frame(controller.home_pages[0], state)
         self.delete_service.delete_job(state, self.selected.get())
