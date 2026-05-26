@@ -18,19 +18,27 @@ class HomeFrame(tk.Frame):
         #buttons
         self.button1 = tk.Button(self, text=controller.home_buttons[0], command=lambda: self.on_click_clock_in(controller, state))
         self.button1.grid(row=1, column=0, sticky="w")
-        self.add_delete_undo_frame = tk.Frame(self)
-        self.add_delete_undo_frame.grid(row=1, column=2)
-        self.button2 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
+        self.crud_frame = tk.Frame(self)
+        self.crud_frame.grid(row=1, column=2)
+        self.button2 = tk.Button(self.crud_frame, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
         self.button2.grid(row=1, column=1, sticky="e")
-        self.button3 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
-        self.button3.grid(row=1, column=2, sticky="e")
-        self.button4 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[3], command=lambda: self.on_click_undo(controller, state))
+        self.button3 = tk.Button(self.crud_frame, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
+        self.button3.grid(row=1, column=2, sticky="swne")
+        self.button4 = tk.Button(self.crud_frame, text=controller.home_buttons[3], command=lambda: self.on_click_undo(controller, state))
         self.button4.grid(row=1, column=3, sticky="e")
+        self.button5 = tk.Button(self.crud_frame, text=controller.home_buttons[4], command=lambda: self.on_click_save(controller))
+        self.button5.grid(row=2, column=2)
 
         self.radiobuttons_frame = tk.Frame(self)
         self.radiobuttons_frame.grid(row=1, column=1)
         
         self.refresh(state)
+
+    def on_click_save(self, controller):
+        #write to db. 
+        #exit app
+        controller.destroy()
+        print("save")
 
     def on_click_undo(self, controller, state):
         self.delete_service.undo_deletion(state)
