@@ -18,9 +18,11 @@ class HomeFrame(tk.Frame):
         #buttons
         self.button1 = tk.Button(self, text=controller.home_buttons[0], command=lambda: self.on_click_clock_in(controller, state))
         self.button1.grid(row=1, column=0, sticky="w")
-        self.button2 = tk.Button(self, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
+        self.add_delete_undo_frame = tk.Frame(self)
+        self.add_delete_undo_frame.grid(row=1, column=2)
+        self.button2 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
         self.button2.grid(row=1, column=1, sticky="e")
-        self.button2 = tk.Button(self, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
+        self.button2 = tk.Button(self.add_delete_undo_frame, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
         self.button2.grid(row=1, column=2, sticky="e")
 
         self.radiobuttons_frame = tk.Frame(self)
