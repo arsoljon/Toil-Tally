@@ -17,7 +17,7 @@ class AppUI(tk.Tk):
         self.clockedIn_pages = [HomeFrame, PauseFrame]
         self.pause_pages = [HomeFrame, ClockedInFrame]
         self.addTime_pages = [HomeFrame]
-        self.home_buttons = ["Start", "Add"]        
+        self.home_buttons = ["Start", "Add", "Delete"]        
         self.pause_buttons = ["End", "Continue"]
         self.addTime_buttons = ["Add", "Cancel"]
         self.clockedIn_buttons =  ["End", "Pause"]

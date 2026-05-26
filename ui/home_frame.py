@@ -18,8 +18,16 @@ class HomeFrame(tk.Frame):
         self.button1.grid(row=1, column=0, sticky="w")
         self.button2 = tk.Button(self, text=controller.home_buttons[1], command=lambda: self.on_click_add_data(controller, state))
         self.button2.grid(row=1, column=1, sticky="e")
+        self.button2 = tk.Button(self, text=controller.home_buttons[2], command=lambda: self.on_click_delete(controller, state))
+        self.button2.grid(row=1, column=2, sticky="e")
 
         self.refresh(state)
+
+    def on_click_delete(self, controller, state):
+        #clockIn
+        #state.currentJob = f"{self.selected.get()}"
+        #controller.show_frame(controller.home_pages[0], state)
+        print(controller.home_buttons[2])
 
     def on_click_clock_in(self, controller, state):
         #clockIn
