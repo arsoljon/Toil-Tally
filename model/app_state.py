@@ -3,30 +3,7 @@ import time
 
 @dataclass
 class AppState:
-    currentDate: str = ""
-    todaysTotalTime: str = ""
-    totalTime: str = ""
-    currentJob: str = ""
-    lengthOfSession: str = ""
-    labels_for_jobs: list[str] = field(default_factory=list)
-    job_durations: dict[str, str] = field(default_factory=dict)
-    currentSession: str = ""
 
-    deleted_jobs: dict[str, str] = field(default_factory=dict)
-    
-    elapsed_seconds: int = 0
-    running_job: bool = False
-    running_pause: bool = False
-    session_job_seconds: int= 0
-    session_pause_seconds: int = 0
-
-    lengthOfPauseSession: str = ""
-    job_selected: str = ""
-        
-    style: str = ""
-    size: int = 0
-    #default is true if I do not want to save to the database. Do not save to db
-    default: bool = True
 
     def setup(self):
         if self.default == True:
