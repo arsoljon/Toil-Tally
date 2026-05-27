@@ -9,8 +9,8 @@ class ClockedInFrame(tk.Frame):
         self.controller = controller
         self.buttonLabels = controller.clockedIn_buttons
         #text
-        style = state.style
-        size = state.size
+        style = controller.style
+        size = controller.size
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)

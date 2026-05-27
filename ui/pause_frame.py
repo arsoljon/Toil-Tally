@@ -8,8 +8,8 @@ class PauseFrame(tk.Frame):
         self.buttonLabels = controller.pause_buttons
 
         #text
-        style = state.style
-        size = state.size
+        style = controller.style
+        size = controller.size
 
         self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(style, size))
         self.label_currentDate.grid(row=0, column=0, sticky="w")

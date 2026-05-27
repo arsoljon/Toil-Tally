@@ -25,6 +25,8 @@ class AppUI(tk.Tk):
         self.start_time = "00:00:00"
         self.current_time = "00:00:00"
         self.tick_job = None
+        self.style = "Arial"
+        self.size = int(16 * .8) 
 
         self.geometry("500x300+100+600")
         container = tk.Frame(self)

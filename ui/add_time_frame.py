@@ -8,8 +8,8 @@ class AddTimeFrame(tk.Frame):
         self.time_service = TimeService()
 
         #text
-        self.style = state.style
-        self.size = state.size
+        self.style = controller.style
+        self.size = controller.size
 
         self.grid(padx=1, pady=1)
         self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(self.style, self.size))
