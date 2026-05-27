@@ -24,7 +24,8 @@ class ClockedInFrame(tk.Frame):
         
         self.label_currentJob = tk.Label(self, text= "", font=(style, size))
         self.label_currentJob.grid(row=2, column=0, sticky = "w")
-        self.label_lengthOfSession = tk.Label(self, text= f"Total: {state.lengthOfSession}", font=(style, size))
+        time = self.time_service.time_to_string(self.time_service.parse_seconds(state.session_job_seconds))
+        self.label_lengthOfSession = tk.Label(self, text= f"Total: {time}", font=(style, size))
         self.label_lengthOfSession.grid(row=3, column=0, sticky = "w")
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click_end(controller, state))
@@ -34,7 +35,7 @@ class ClockedInFrame(tk.Frame):
     
     def on_click_end(self, controller, state):
         #end
-        self.time_service.add_session_to_job(state)
+        self.time_service.add_session_to_job(controller, state)
         controller.show_frame(controller.clockedIn_pages[0], state)
 
     def on_click_pause(self, controller, state):

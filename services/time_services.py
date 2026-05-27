@@ -1,5 +1,5 @@
 class TimeService():
-    def add_session_to_job(self, state):
+    def add_session_to_job(self, controller, state):
         #current duration and increment the current sessions time
         #both are strings and require parsing.
         original_duration = self.parse_time(state.job_durations[state.currentJob]) 

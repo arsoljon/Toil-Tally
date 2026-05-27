@@ -15,10 +15,11 @@ class PauseFrame(tk.Frame):
         self.label_currentDate.grid(row=0, column=0, sticky="w")
         self.label_totalTime = tk.Label(self, text="", font=(style, size))
         self.label_totalTime.grid(row=0, column=1, sticky="ne")
-        
-        self.label_lengthOfSession = tk.Label(self, text= f"Total: {state.lengthOfSession}", font=(style, size))
+        time = self.time_service.time_to_string(self.time_service.parse_seconds(state.session_job_seconds))
+        self.label_lengthOfSession = tk.Label(self, text= f"Total: {time}", font=(style, size))
         self.label_lengthOfSession.grid(row=2, column=0)
-        self.label_lengthOfPausedSession = tk.Label(self, text= f"Pause for: {state.lengthOfPauseSession}", font=(style, size))
+        paused_time = self.time_service.time_to_string(self.time_service.parse_seconds(state.session_pause_seconds))
+        self.label_lengthOfPausedSession = tk.Label(self, text= f"Pause for: {paused_time}", font=(style, size))
         self.label_lengthOfPausedSession.grid(row=3, column=0)
         #buttons
         self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click_end(controller, state))

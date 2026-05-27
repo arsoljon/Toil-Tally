@@ -9,11 +9,11 @@ class HomeFrame(tk.Frame):
         self.selected = tk.StringVar(value="Other")
 
         #text
-        self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(state.style, state.size))
+        self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(controller.style, controller.size))
         self.label_currentDate.grid(row=0, column=0, sticky="w")
-        self.label_totalTime = tk.Label(self, text=f"", font=(state.style, state.size))
+        self.label_totalTime = tk.Label(self, text=f"", font=(controller.style, controller.size))
         self.label_totalTime.grid(row=0, column=1, sticky="e")
-        self.label_todaysTotalTime = tk.Label(self, text= f"", font=(state.style, state.size))
+        self.label_todaysTotalTime = tk.Label(self, text= f"", font=(controller.style, controller.size))
         self.label_todaysTotalTime.grid(row=2, column=0, sticky="w")
         #buttons
         self.button1 = tk.Button(self, text=controller.home_buttons[0], command=lambda: self.on_click_clock_in(controller, state))
@@ -41,13 +41,13 @@ class HomeFrame(tk.Frame):
         print("save")
 
     def on_click_undo(self, controller, state):
-        self.delete_service.undo_deletion(state)
+        self.delete_service.undo_deletion(controller, state)
         controller.show_frame(controller.home_pages[2], state)
 
     def on_click_delete(self, controller, state):
         #state.currentJob = f"{self.selected.get()}"
         #controller.show_frame(controller.home_pages[0], state)
-        self.delete_service.delete_job(state, self.selected.get())
+        self.delete_service.delete_job(controller, state, self.selected.get())
         controller.show_frame(controller.home_pages[2], state)
 
     def on_click_clock_in(self, controller, state):

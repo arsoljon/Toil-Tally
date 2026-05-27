@@ -41,7 +41,7 @@ class AddTimeFrame(tk.Frame):
                 self.time_service.add_new_job(state, self.entry.get())
         session = [int(self.hour.get()), int(self.minute.get()), 0]
         state.session_job_seconds = self.time_service.time_to_seconds(session)
-        self.time_service.add_session_to_job(state)
+        self.time_service.add_session_to_job(controller, state)
 
         controller.show_frame(controller.addTime_pages[0], state)
 
