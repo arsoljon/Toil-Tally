@@ -1,24 +1,35 @@
+from services.database.database_service import DatabaseService
+
 class TimeService():
+    def __init__(self):
+        #self.db_service = DatabaseService()
+        pass
+
     def add_session_to_job(self, controller, state):
         #current duration and increment the current sessions time
         #both are strings and require parsing.
+        db = DatabaseService()
         original_duration = self.parse_time(state.job_durations[state.currentJob]) 
         duration_seconds = self.time_to_seconds(original_duration)
         total = state.session_job_seconds + duration_seconds
         formatted_total = self.parse_seconds(total)
         state.job_durations[state.currentJob] = self.time_to_string(formatted_total)
+        for job, duration in state.job_durations.items():
+            if job == state.currentJob:
+                db.insert_job((job, duration))
+        #db.insert_job(state.job_durations[state.currentJob])
 
         overall_total = self.parse_time(state.totalTime)
         overall_total_seconds = self.time_to_seconds(overall_total)
         formatted_overall_total = self.parse_seconds(state.session_job_seconds + overall_total_seconds)
         state.totalTime = self.time_to_string(formatted_overall_total)
+        #state.totalTime = db.get_total_time(state)
 
         todays_total = self.parse_time(state.todaysTotalTime)
         todays_total_seconds = self.time_to_seconds(todays_total)
         formatted_todays_total = self.parse_seconds(state.session_job_seconds + todays_total_seconds)
         state.todaysTotalTime = self.time_to_string(formatted_todays_total)
-
-
+        #state.todaysTotalTime = db.get_todays_total_time(state)
 
 
     def time_to_seconds(self, time):

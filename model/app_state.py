@@ -1,3 +1,5 @@
+from services.database.database_service import DatabaseService
+from services.time_services import TimeService
 from dataclasses import dataclass, field
 import time
 
@@ -17,9 +19,14 @@ class AppState:
     todaysTotalTime: str = ""
 
     def setup(self):
-        self.totalTime =  "01:23:45"
+        time_service = TimeService()
+        db = DatabaseService()
+        db.setup()
         self.currentDate =  time.strftime("%Y-%m-%d")
-        self.labels_for_jobs = ["Devops", "Stonks"]
+        self.job_durations = db.get_all_jobs()
+        self.labels_for_jobs = db.get_job_labels()
+        #time_service.get_total_time()
+        self.totalTime =  "01:23:45"
         self.todaysTotalTime = "00:00:00"
         self.currentJob = "Devops"
 
@@ -31,7 +38,7 @@ class AppState:
         self.session_pause_seconds = 0
 
 
-        self.job_durations = {"Devops":"00:00:00", "Stonks":"00:00:00", "Other":"00:00:00"}
+        
 
 
             
