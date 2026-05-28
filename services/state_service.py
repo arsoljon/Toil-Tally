@@ -18,3 +18,8 @@ class StateService():
         seconds = db.get_total_sessions_by_date(currentDate)
         formatted_total = time_service.time_to_string(time_service.parse_seconds(seconds))
         return formatted_total
+    
+    def update_state(self, controller, state):
+        db = DatabaseService()
+        db.update_jobs(controller, state)
+        

@@ -73,6 +73,12 @@ class DatabaseService:
             total += session
         return total_seconds 
     
+    def update_jobs(self, controller, state):
+        #while comparing deletedList
+        for job, duration in controller.deleted_jobs.items():
+            self.cursor.execute("DELETE FROM jobs WHERE name=?", (job,))
+        self.conn.commit()
+
     def reset_tables(self):
         self.cursor.execute("DROP TABLE jobs")
         self.cursor.execute("DROP TABLE sessions")

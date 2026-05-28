@@ -1,11 +1,13 @@
 import tkinter as tk
 from services.delete_service import DeleteService 
+from services.state_service import StateService
 
 class HomeFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
         self.controller = controller
         self.delete_service = DeleteService()
+        self.state_service = StateService()
         self.selected = tk.StringVar(value="Other")
 
         #text
@@ -26,7 +28,7 @@ class HomeFrame(tk.Frame):
         self.button3.grid(row=1, column=2, sticky="swne")
         self.button4 = tk.Button(self.crud_frame, text=controller.home_buttons[3], command=lambda: self.on_click_undo(controller, state))
         self.button4.grid(row=1, column=3, sticky="e")
-        self.button5 = tk.Button(self.crud_frame, text=controller.home_buttons[4], command=lambda: self.on_click_save(controller))
+        self.button5 = tk.Button(self.crud_frame, text=controller.home_buttons[4], command=lambda: self.on_click_save(controller, state))
         self.button5.grid(row=2, column=2)
 
         self.radiobuttons_frame = tk.Frame(self)
@@ -34,9 +36,10 @@ class HomeFrame(tk.Frame):
         
         self.refresh(state)
 
-    def on_click_save(self, controller):
+    def on_click_save(self, controller, state):
         #write to db. 
         #exit app
+        self.state_service.update_state(controller, state)
         controller.destroy()
         print("save")
 
