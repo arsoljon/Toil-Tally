@@ -6,7 +6,6 @@ class DatabaseService:
         self.cursor = self.conn.cursor()
 
     def setup(self):
-        #self.reset_tables()
         self.cursor.execute("PRAGMA foreign_keys = ON;")
         self.cursor.execute("""            
             CREATE TABLE IF NOT EXISTS jobs (
@@ -27,8 +26,6 @@ class DatabaseService:
         """)
         self.conn.commit()
 
-    def get_job_duration(self):
-        pass
 
     def insert_job(self, job):
         name, duration = job
@@ -58,10 +55,6 @@ class DatabaseService:
             "SELECT duration FROM jobs"
         )
         print(self.cursor.fetchall())
-
-    def get_todays_total_time(self, state):
-        #add durations from all todays sessions
-        pass
 
     def get_all_jobs(self):
         self.cursor.execute("SELECT name, duration FROM jobs")
