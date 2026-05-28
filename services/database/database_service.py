@@ -31,12 +31,24 @@ class DatabaseService:
         pass
 
     def insert_job(self, job):
-        name, duration = list(job)
+        name, duration = job
         self.cursor.execute(
             "INSERT INTO jobs (name, duration) " \
             "VALUES (?,?) " \
             "on CONFLICT(name) DO UPDATE SET duration = excluded.duration;", 
             (name, duration)
+        )
+        self.conn.commit()
+    
+    def insert_session(self, state):
+        self.cursor.execute("SELECT id FROM jobs WHERE name=?",(state.currentJob,))
+        job_id = self.cursor.fetchone()[0]
+        seconds_session = state.session_job_seconds
+        date = state.currentDate
+        self.cursor.execute(
+            "INSERT INTO sessions (job_id, session_seconds, date) " \
+            "VALUES (?,?,?) ",
+            (job_id, seconds_session, date,)
         )
         self.conn.commit()
 
@@ -70,7 +82,7 @@ class DatabaseService:
         self.cursor.execute("SELECT session_seconds FROM sessions WHERE date=?",(date,))
         total_seconds = 0
         for i, session in enumerate(self.cursor.fetchall()):
-            total += session
+            total_seconds += session[0]
         return total_seconds 
     
     def update_jobs(self, controller, state):
