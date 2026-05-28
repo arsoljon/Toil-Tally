@@ -22,7 +22,6 @@ class AppUI(tk.Tk):
         self.addTime_buttons = ["Add", "Cancel"]
         self.clockedIn_buttons =  ["End", "Pause"]
 
-        self.deleted_jobs = {}
         self.tick_job = None
         self.style = "Arial"
         self.size = int(16 * .8) 

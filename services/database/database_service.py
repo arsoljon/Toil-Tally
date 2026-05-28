@@ -88,7 +88,7 @@ class DatabaseService:
     def update_jobs(self, controller, state):
         #while comparing deletedList
         self.cursor.execute("PRAGMA foreign_keys = ON;")
-        for job, duration in controller.deleted_jobs.items():
+        for job, duration in state.deleted_jobs.items():
             self.cursor.execute("DELETE FROM jobs WHERE name=?", (job,))
         self.conn.commit()
 

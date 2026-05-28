@@ -9,6 +9,7 @@ class AppState:
     currentJob: str = ""
     labels_for_jobs: list[str] = field(default_factory=list)
     job_durations: dict[str, str] = field(default_factory=dict)
+    deleted_jobs: dict[str, str] = field(default_factory=dict)
     running_job: bool = False
     running_pause: bool = False
     elapsed_seconds: int = 0
@@ -36,6 +37,8 @@ class AppState:
         self.running_pause = False
         self.session_job_seconds = 0
         self.session_pause_seconds = 0
+
+        self.deleted_jobs = {}
 
 
         
