@@ -20,7 +20,7 @@ class AppUI(tk.Tk):
         self.home_buttons = ["Start", "Add", "Delete", "Undo", "Save & Exit"]        
         self.pause_buttons = ["End", "Continue"]
         self.addTime_buttons = ["Add", "Cancel"]
-        self.clockedIn_buttons =  ["End", "Pause"]
+        self.clockedIn_buttons =  ["End", "Pause", "Update"]
 
         self.tick_job = None
         self.style = "Arial"

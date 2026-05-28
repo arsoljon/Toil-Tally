@@ -16,23 +16,38 @@ class ClockedInFrame(tk.Frame):
         self.grid_columnconfigure(2, weight=1)
         self.grid_columnconfigure(3, weight=1)
         
-        
-        self.label_currentDate = tk.Label(self, text=f"Date: {state.currentDate}", font=(style, size))
+        #frame setup
+        self.labelFrame_header = tk.Frame(self)
+        self.labelFrame_header.grid(row=0, column=0, padx=10, pady=5)
+        self.buttonFrame_end_pause = tk.Frame(self)
+        self.buttonFrame_end_pause.grid(row=1, column=0, sticky="w", padx=10)
+        self.labelFrame_job_session = tk.Frame(self)
+        self.labelFrame_job_session.grid(row=3, column=0, sticky="w", padx=10, pady=10)
+        self.buttonFrame_update = tk.Frame(self)
+        self.buttonFrame_update.grid(row=5, column=0, sticky="w", padx = 10)
+
+        self.label_currentDate = tk.Label(self.labelFrame_header, text=f"Date: {state.currentDate}", font=(style, size))
         self.label_currentDate.grid(row=0, column=0, sticky="w")
-        self.label_totalTime = tk.Label(self, text="", font=(style, size))
-        self.label_totalTime.grid(row=0, column=1, sticky="ne")
+        self.label_totalTime = tk.Label(self.labelFrame_header, text="", font=(style, size))
+        self.label_totalTime.grid(row=0, column=1, sticky="ne", padx=100)
         
-        self.label_currentJob = tk.Label(self, text= "", font=(style, size))
-        self.label_currentJob.grid(row=2, column=0, sticky = "w")
+        self.label_currentJob = tk.Label(self.labelFrame_job_session, text= "", font=(style, size))
+        self.label_currentJob.grid(row=0, column=0, sticky = "w")
         time = self.time_service.time_to_string(self.time_service.parse_seconds(state.session_job_seconds))
-        self.label_lengthOfSession = tk.Label(self, text= f"Total: {time}", font=(style, size))
-        self.label_lengthOfSession.grid(row=3, column=0, sticky = "w")
+        self.label_lengthOfSession = tk.Label(self.labelFrame_job_session, text= f"Total: {time}", font=(style, size))
+        self.label_lengthOfSession.grid(row=1, column=0, sticky = "w")
+
         #buttons
-        self.button1 = tk.Button(self, text=self.buttonLabels[0], command= lambda: self.on_click_end(controller, state))
-        self.button1.grid(row=1, column=0)
-        self.button2 = tk.Button(self, text=self.buttonLabels[1], command= lambda: self.on_click_pause(controller, state))
-        self.button2.grid(row=1, column=1)
+        self.button1 = tk.Button(self.buttonFrame_end_pause, text=self.buttonLabels[0], command= lambda: self.on_click_end(controller, state))
+        self.button1.grid(row=0, column=0, sticky="w", padx = 10)
+        self.button2 = tk.Button(self.buttonFrame_end_pause, text=self.buttonLabels[1], command= lambda: self.on_click_pause(controller, state))
+        self.button2.grid(row=0, column=1, sticky="e", padx = 200)
+        self.button3 = tk.Button(self.buttonFrame_update,text=self.buttonLabels[2], command= lambda: self.on_click_update(controller, state))
+        self.button3.grid(row=0, column=0)
     
+    def on_click_update(controller, state):
+        pass
+
     def on_click_end(self, controller, state):
         #end
         self.time_service.add_session_to_job(controller, state)
