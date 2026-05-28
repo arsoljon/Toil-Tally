@@ -15,8 +15,10 @@ class DeleteService:
             del state.labels_for_jobs[job_index]
             controller.deleted_jobs[job] = job_duration
             #remove from total time: 
-            diff = self.timeservice.get_difference(state.totalTime, controller.deleted_jobs[job])
-            state.totalTime = diff    
+            totalDiff = self.timeservice.get_difference(state.totalTime, controller.deleted_jobs[job])
+            state.totalTime = totalDiff    
+            todaysDiff = self.timeservice.get_difference(state.todaysTotalTime, controller.deleted_jobs[job])
+            state.todaysTotalTime = todaysDiff            
         else:
             print("Unable to delete")
 
