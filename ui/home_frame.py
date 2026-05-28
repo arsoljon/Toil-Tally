@@ -55,6 +55,8 @@ class HomeFrame(tk.Frame):
 
     def on_click_clock_in(self, controller, state):
         #clockIn
+        if self.selected.get().lower() == "other":
+            return
         state.currentJob = f"{self.selected.get()}"
         controller.show_frame(controller.home_pages[0], state)
 
