@@ -30,7 +30,7 @@ class PauseFrame(tk.Frame):
     def on_click_end(self, controller, state):
         #end, go to home frame
         #add the current session time to the current jobs time
-        self.time_service.add_session_to_job(state)
+        self.time_service.add_session_to_job(controller, state)
         controller.show_frame(controller.pause_pages[0], state)
 
     def on_click_clock_in(self, controller, state):
