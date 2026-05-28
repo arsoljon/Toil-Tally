@@ -66,6 +66,13 @@ class DatabaseService:
             all_labels.append(labels[0])
         return all_labels
     
+    def get_total_sessions_by_date(self, date):
+        self.cursor.execute("SELECT session_seconds FROM sessions WHERE date=?",(date,))
+        total_seconds = 0
+        for i, session in enumerate(self.cursor.fetchall()):
+            total += session
+        return total_seconds 
+    
     def reset_tables(self):
         self.cursor.execute("DROP TABLE jobs")
         self.cursor.execute("DROP TABLE sessions")
