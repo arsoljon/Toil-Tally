@@ -4,6 +4,8 @@ class StatusService():
         state.running_pause = False 
         state.session_job_seconds = 0
         state.session_pause_seconds = 0
+        state.session_initial = 0
+        state.session_current = 0
 
     def is_running(self, state):
         if state.running_job: 
@@ -15,7 +17,6 @@ class StatusService():
         return True
 
     def doing_job(self, state):
-        state.session_pause_seconds = 0
         state.running_job = True
         state.running_pause = False
         

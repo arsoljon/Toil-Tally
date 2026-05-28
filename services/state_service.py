@@ -31,7 +31,7 @@ class StateService():
         #get the difference between session_initail and session_current
         #where both are time stamps, in seconds, of when they were made. 
         state.session_current = int(time.time())
-        diff_seconds = abs(state.session_current - state.session_initial)
+        diff_seconds = abs(state.session_current - state.session_initial) - state.session_pause_seconds
         #update directly to the session_job_seconds
         state.session_job_seconds = diff_seconds
 
