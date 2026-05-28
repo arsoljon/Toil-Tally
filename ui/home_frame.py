@@ -1,6 +1,7 @@
 import tkinter as tk
 from services.delete_service import DeleteService 
 from services.state_service import StateService
+import time
 
 class HomeFrame(tk.Frame):
     def __init__(self, parent, controller, state):
@@ -57,6 +58,8 @@ class HomeFrame(tk.Frame):
         if self.selected.get().lower() == "other":
             return
         state.currentJob = f"{self.selected.get()}"
+        self.state_service.update_session_initial(state)
+        state.session_inital = int(time.time())
         controller.show_frame(controller.home_pages[0], state)
 
     def on_click_add_data(self, controller, state):

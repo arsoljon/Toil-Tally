@@ -15,7 +15,8 @@ class AppState:
     elapsed_seconds: int = 0
     session_job_seconds: int= 0
     session_pause_seconds: int = 0
-    currentSession: str = ""
+    session_initial: int = 0
+    session_current: int = 0
     totalTime: str = ""
     todaysTotalTime: str = ""
 
@@ -31,7 +32,8 @@ class AppState:
         self.todaysTotalTime = state_service.get_todays_total_time(self.currentDate)
         self.currentJob = ""
 
-        self.currentSession = "00:00:00"
+        self.session_initial = 0
+        self.session_current = 0
 
         self.running_job = False
         self.running_pause = False

@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 from services.time_services import TimeService
 
 class ClockedInFrame(tk.Frame):
@@ -45,8 +46,8 @@ class ClockedInFrame(tk.Frame):
         self.button3 = tk.Button(self.buttonFrame_update,text=self.buttonLabels[2], command= lambda: self.on_click_update(controller, state))
         self.button3.grid(row=0, column=0)
     
-    def on_click_update(controller, state):
-        pass
+    def on_click_update(self, controller, state):
+        print(state.session_initial)
 
     def on_click_end(self, controller, state):
         #end

@@ -1,5 +1,6 @@
 from services.time_services import TimeService
 from services.database.database_service import DatabaseService
+import time
 
 class StateService():
     def get_total_time(self, jobs):
@@ -23,3 +24,5 @@ class StateService():
         db = DatabaseService()
         db.update_jobs(controller, state)
         
+    def update_session_initial(self, state):
+        state.session_initial = int(time.time())
