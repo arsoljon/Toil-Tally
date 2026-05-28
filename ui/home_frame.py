@@ -37,11 +37,9 @@ class HomeFrame(tk.Frame):
         self.refresh(state)
 
     def on_click_save(self, controller, state):
-        #write to db. 
-        #exit app
         self.state_service.update_state(controller, state)
         controller.destroy()
-        print("save")
+
 
     def on_click_undo(self, controller, state):
         self.delete_service.undo_deletion(controller, state)

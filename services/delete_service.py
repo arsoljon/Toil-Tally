@@ -20,7 +20,7 @@ class DeleteService:
             todaysDiff = self.timeservice.get_difference(state.todaysTotalTime, state.deleted_jobs[job])
             state.todaysTotalTime = todaysDiff            
         else:
-            print("Unable to delete")
+            return
 
     def undo_deletion(self, controller, state):
         if len(state.deleted_jobs) > 0:
@@ -33,6 +33,5 @@ class DeleteService:
             #update total
             newTotal = self.timeservice.add_times(state.totalTime, job_time)
             state.totalTime = newTotal
-
         else:
-            print("Unable to Undo")
+            return 

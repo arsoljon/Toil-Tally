@@ -54,7 +54,6 @@ class DatabaseService:
         self.cursor.execute(
             "SELECT duration FROM jobs"
         )
-        print(self.cursor.fetchall())
 
     def get_all_jobs(self):
         self.cursor.execute("SELECT name, duration FROM jobs")
