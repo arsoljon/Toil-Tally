@@ -1,11 +1,13 @@
 import tkinter as tk
 import time
 from services.time_services import TimeService
+from services.state_service import StateService
 
 class ClockedInFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
         state.running = True
+        self.state_service = StateService()
         self.time_service = TimeService()
         self.controller = controller
         self.buttonLabels = controller.clockedIn_buttons
@@ -47,7 +49,7 @@ class ClockedInFrame(tk.Frame):
         self.button3.grid(row=0, column=0)
     
     def on_click_update(self, controller, state):
-        print(state.session_initial)
+        self.state_service.update_session(state)
 
     def on_click_end(self, controller, state):
         #end

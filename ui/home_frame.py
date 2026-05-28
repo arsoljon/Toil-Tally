@@ -59,7 +59,6 @@ class HomeFrame(tk.Frame):
             return
         state.currentJob = f"{self.selected.get()}"
         self.state_service.update_session_initial(state)
-        state.session_inital = int(time.time())
         controller.show_frame(controller.home_pages[0], state)
 
     def on_click_add_data(self, controller, state):
