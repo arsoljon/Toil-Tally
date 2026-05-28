@@ -49,6 +49,7 @@ class HomeFrame(tk.Frame):
         #state.currentJob = f"{self.selected.get()}"
         #controller.show_frame(controller.home_pages[0], state)
         self.delete_service.delete_job(controller, state, self.selected.get())
+        self.selected.set("Other")
         controller.show_frame(controller.home_pages[2], state)
 
     def on_click_clock_in(self, controller, state):
