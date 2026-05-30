@@ -3,8 +3,10 @@ from ui.home_frame import HomeFrame
 from ui.add_time_frame import AddTimeFrame
 from ui.pause_frame import PauseFrame
 from ui.clock_in_time_frame import ClockedInFrame
+from ui.weeks_frame import ViewWeeks 
 from model.app_state import AppState 
 from services.status_service import StatusService
+
 
 class AppUI(tk.Tk):
     def __init__(self):
@@ -13,7 +15,8 @@ class AppUI(tk.Tk):
         new_state.setup()
         self.status_service = StatusService()
         
-        self.home_pages = [ClockedInFrame, AddTimeFrame, HomeFrame]
+        self.viewWeeks_pages = [HomeFrame]
+        self.home_pages = [ClockedInFrame, AddTimeFrame, HomeFrame, ViewWeeks]
         self.clockedIn_pages = [HomeFrame, PauseFrame]
         self.pause_pages = [HomeFrame, ClockedInFrame]
         self.addTime_pages = [HomeFrame]
@@ -21,6 +24,7 @@ class AppUI(tk.Tk):
         self.pause_buttons = ["End", "Continue"]
         self.addTime_buttons = ["Add", "Cancel"]
         self.clockedIn_buttons =  ["End", "Pause", "Update"]
+        self.viewWeeks_buttons = ["Home"]
 
         self.tick_job = None
         self.style = "Arial"
@@ -37,6 +41,7 @@ class AppUI(tk.Tk):
         self.frames[ClockedInFrame] = ClockedInFrame(container, self, new_state)
         self.frames[PauseFrame] = PauseFrame(container, self, new_state)
         self.frames[AddTimeFrame] = AddTimeFrame(container, self, new_state)
+        self.frames[ViewWeeks] = ViewWeeks(container, self, new_state)
 
         for frame in self.frames.values():
             frame.grid(row=0, column=0, sticky="nsew")
