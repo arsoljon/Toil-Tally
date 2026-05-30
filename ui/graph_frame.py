@@ -45,21 +45,15 @@ class GraphFrame(tk.Frame):
 
         self.button1 = tk.Button(button_frame, text=controller.graph_buttons[0], command= lambda: self.on_click_home(controller, state))
         self.button1.grid(row=1, column=0)
-        self.button2 = tk.Button(button_frame, text=controller.graph_buttons[1], command= lambda: self.on_click_notes(controller, state))
-        self.button2.grid(row=1, column=1)
 
 
     def on_bar_click_notes(self,event, controller, state):
-        print("brother::::::")
         bar = event.artist
         # Find which bar was clicked
         index = list(self.bars).index(bar)
         job_name = self.jobs[index]
-
+        state.current_job = job_name
         print(f"Clicked: {job_name}")
-        controller.show_frame(controller.graph_pages[1], state)
-
-    def on_click_notes(self, controller, state):
         controller.show_frame(controller.graph_pages[1], state)
 
     def on_click_home(self, controller, state):
