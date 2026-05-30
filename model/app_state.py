@@ -1,5 +1,6 @@
 from services.database.database_service import DatabaseService
 from services.state_service import StateService
+from services.week_services import WeekService
 from dataclasses import dataclass, field
 import time
 
@@ -15,12 +16,14 @@ class AppState:
     elapsed_seconds: int = 0
     session_job_seconds: int= 0
     session_pause_seconds: int = 0
-    currentSession: str = ""
+    session_initial: int = 0
+    session_current: int = 0
     totalTime: str = ""
     todaysTotalTime: str = ""
 
     def setup(self):
         state_service = StateService()
+        week_service = WeekService()
         
         db = DatabaseService()
         db.setup()
@@ -31,7 +34,8 @@ class AppState:
         self.todaysTotalTime = state_service.get_todays_total_time(self.currentDate)
         self.currentJob = ""
 
-        self.currentSession = "00:00:00"
+        self.session_initial = 0
+        self.session_current = 0
 
         self.running_job = False
         self.running_pause = False
@@ -40,8 +44,12 @@ class AppState:
 
         self.deleted_jobs = {}
 
-
-        
+        self.start_of_week = week_service.get_start_of_week()
+        self.job_count = week_service.get_job_count(self.job_durations)
+        self.hours_this_week = week_service.get_total_hours(self.job_durations)
+        self.avg_per_day = week_service.get_avg_per_day(self.job_durations)
+        self.top_job = week_service.get_top_job(self.job_durations)
+        print(self.top_job)
 
 
             

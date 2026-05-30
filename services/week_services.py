@@ -1,6 +1,10 @@
 from datetime import timedelta, datetime, time
+from services.time_services import TimeService
 
 class WeekService():
+    def __init__(self):
+        self.time_service = TimeService()
+
     def get_start_of_week(self):
         #using datetime lib, days are represented: 
         # 0-6 => Monday-Sunday 
@@ -11,28 +15,35 @@ class WeekService():
             diff = seconds_per_day * (today.weekday() + 1)
             seconds_today = seconds_today - diff
         date = datetime.fromtimestamp(seconds_today).date()
-        print("Start of the week: ", date)
+        return date
 
-    def get_job_count(self, state):
-        return len(state.job_durations)
+    def get_job_count(self, jobs):
+        return len(jobs)
 
-    def get_total_hours(self, state):
+    def get_total_hours(self, jobs):
+        sum = self.get_total_seconds(jobs)
+        hh, mm, ss = self.time_service.parse_seconds(sum)
+        return self.time_service.time_to_string((hh,mm,ss))
+
+    def get_total_seconds(self, jobs):
         sum = 0
-        for job in state.job_durations:
-            name, hours = list(job)
-            sum += hours
-        return sum        
+        for hours_string in jobs.values():
+            seconds = self.time_service.time_to_seconds(self.time_service.parse_time(hours_string))
+            sum += seconds
+        return sum
 
-    def get_avg_per_day(self, state):
-        sum = self.get_total_hours(state)
+    def get_avg_per_day(self, jobs):
+        sum = self.get_total_seconds(jobs)
         days = 7
-        return int(sum/days)
+        avg = int(sum/days)
+        hh, mm, ss = self.time_service.parse_seconds(avg)
+        return self.time_service.time_to_string((hh,mm,ss))
 
-    def get_top_job(self, state):
+    def get_top_job(self, jobs):
         top_job = ""
         top_hours = 0
-        for job in state.job_durations:
-            name, hours = list(job)
+        for name, hours_string in jobs.items():
+            hours = self.time_service.time_to_seconds(self.time_service.parse_time(hours_string))
             if hours > top_hours:
                 top_hours = hours
                 top_job = name
