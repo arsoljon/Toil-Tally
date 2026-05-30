@@ -57,6 +57,7 @@ class AppUI(tk.Tk):
         self.show_frame(self.current_frame, new_state)
 
     def show_frame(self, frame_class, state):
+        self.title(frame_class.__name__)
         self.current_frame = self.frames[frame_class]
         frame = self.frames[frame_class]
         if hasattr(frame, "refresh"):
