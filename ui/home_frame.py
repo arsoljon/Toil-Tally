@@ -31,11 +31,16 @@ class HomeFrame(tk.Frame):
         self.button4.grid(row=1, column=3, sticky="e")
         self.button5 = tk.Button(self.crud_frame, text=controller.home_buttons[4], command=lambda: self.on_click_save(controller, state))
         self.button5.grid(row=2, column=2)
+        self.button6 = tk.Button(self.crud_frame, text=controller.home_buttons[5], command=lambda: self.on_click_view_weeks(controller, state))
+        self.button6.grid(row=4, column=2)
 
         self.radiobuttons_frame = tk.Frame(self)
         self.radiobuttons_frame.grid(row=1, column=1)
         
         self.refresh(state)
+
+    def on_click_view_weeks(self, controller, state):
+        pass
 
     def on_click_save(self, controller, state):
         self.state_service.update_state(controller, state)

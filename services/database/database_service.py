@@ -7,11 +7,19 @@ class DatabaseService:
 
     def setup(self):
         self.cursor.execute("PRAGMA foreign_keys = ON;")
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS weeks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                week_start TEXT
+            );
+        """)
         self.cursor.execute("""            
             CREATE TABLE IF NOT EXISTS jobs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                week_id INTEGER,
                 name VARCHAR(255) UNIQUE,
-                duration TEXT
+                duration TEXT,
+                FOREIGN KEY(week_id) references weeks(id)
             );
         """)
         self.cursor.execute("""
