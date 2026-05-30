@@ -23,14 +23,14 @@ class AppUI(tk.Tk):
         self.addTime_pages = [HomeFrame]
         self.viewWeeks_pages = [HomeFrame, GraphFrame]
         self.graph_pages = [ViewWeeksFrame, NotesFrame]
-        self.notes_pages = [GraphFrame, ViewWeeksFrame]
+        self.notes_pages = [GraphFrame, ViewWeeksFrame, HomeFrame]
         self.home_buttons = ["Start", "Add", "Delete", "Undo", "Save & Exit", "View By Weeks"]        
         self.pause_buttons = ["End", "Continue"]
         self.addTime_buttons = ["Add", "Cancel"]
         self.clockedIn_buttons =  ["End", "Pause", "Update"]
         self.viewWeeks_buttons = ["Home"]
         self.graph_buttons = ["Back", "Notes"]
-        self.notes_buttons = ["Back", "View Weeks" ]
+        self.notes_buttons = ["Back", "View Weeks" , "Save"]
 
         self.tick_job = None
         self.style = "Arial"
