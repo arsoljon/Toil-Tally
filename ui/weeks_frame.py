@@ -1,7 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+#from services.week_service import WeekService
 
-class ViewWeeks(tk.Frame):
+
+class ViewWeeksFrame(tk.Frame):
     def __init__(self, parent, controller, state):
         super().__init__(parent)
         self.controller = controller
@@ -38,7 +42,7 @@ class ViewWeeks(tk.Frame):
         item = self.tree.focus()
         values = self.tree.item(item, "values")
         print("Open details for:", values)
-        controller.show_frame(controller.viewWeeks_pages[0], state)
+        controller.show_frame(controller.viewWeeks_pages[1], state)
 
     def on_click_home(self, controller, state):
         controller.show_frame(controller.viewWeeks_pages[0], state)
