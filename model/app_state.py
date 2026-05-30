@@ -1,6 +1,6 @@
 from services.database.database_service import DatabaseService
 from services.state_service import StateService
-from services.week_services import WeekService
+from services.week_service import WeekService
 from dataclasses import dataclass, field
 import time
 
@@ -49,7 +49,6 @@ class AppState:
         self.hours_this_week = week_service.get_total_hours(self.job_durations)
         self.avg_per_day = week_service.get_avg_per_day(self.job_durations)
         self.top_job = week_service.get_top_job(self.job_durations)
-        print(self.top_job)
 
 
             

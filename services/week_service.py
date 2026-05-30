@@ -48,3 +48,12 @@ class WeekService():
                 top_hours = hours
                 top_job = name
         return top_job
+    
+    def get_bar_info(self, state):
+        jobs = []
+        hours = []
+        for name, duration in state.job_durations.items():
+            jobs.append(name)
+            formatted_duration = self.time_service.parse_time(duration)
+            hours.append(formatted_duration[0])
+        return jobs, hours
