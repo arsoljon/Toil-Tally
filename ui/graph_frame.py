@@ -10,6 +10,12 @@ class GraphFrame(tk.Frame):
         super().__init__(parent)
         self.parent = parent
         self.controller = controller
+        self.jobs = [
+            "Stonks", "Devops", "Toil Tally",
+            "Stons", "Devop", "Toi Tally",
+            "Ston", "Devo", "Toi Taly"
+        ]
+        self.hours = [12, 8, 30, 12, 8, 30, 12, 8, 30]
 
         button_frame = tk.Frame(self)
         button_frame.grid(row=1, column=0)
@@ -20,10 +26,11 @@ class GraphFrame(tk.Frame):
         #self.grid_rowconfigure(1, weight=0)
         self.grid_columnconfigure(0, weight=1)
 
+
         # --- GRAPH ---
         fig = Figure(figsize=(5, 3), dpi=80)
         ax = fig.add_subplot(111)
-        ax.barh(["Stonks", "Devops", "Toil Tally", "Stons", "Devop", "Toi Tally", "Ston", "Devo", "Toi Taly"], [12, 8, 30, 12, 8, 30, 12, 8, 30])
+        self.bars = ax.barh(self.jobs, self.hours, picker=True)
         ax.set_xlabel("Hours")
         ax.set_title("Weekly Job Hours")
 
@@ -33,6 +40,8 @@ class GraphFrame(tk.Frame):
         canvas.draw()
         canvas_widget = canvas.get_tk_widget()
         canvas_widget.grid(row=0, column=0, sticky="nsew")
+        # Connect click handler
+        canvas.mpl_connect("pick_event", lambda pick_event: self.on_bar_click_notes(pick_event, controller, state))
 
         self.button1 = tk.Button(button_frame, text=controller.graph_buttons[0], command= lambda: self.on_click_home(controller, state))
         self.button1.grid(row=1, column=0)
@@ -40,7 +49,16 @@ class GraphFrame(tk.Frame):
         self.button2.grid(row=1, column=1)
 
 
-        
+    def on_bar_click_notes(self,event, controller, state):
+        print("brother::::::")
+        bar = event.artist
+        # Find which bar was clicked
+        index = list(self.bars).index(bar)
+        job_name = self.jobs[index]
+
+        print(f"Clicked: {job_name}")
+        controller.show_frame(controller.graph_pages[1], state)
+
     def on_click_notes(self, controller, state):
         controller.show_frame(controller.graph_pages[1], state)
 
