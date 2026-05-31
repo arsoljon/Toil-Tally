@@ -18,16 +18,24 @@ class ViewWeeksFrame(tk.Frame):
 
         self.tree = ttk.Treeview(
             table_frame,
-            columns=("job", "hours"),
+            columns=("week", "job count", "total hours", "average", "top job"),
             show="headings"
         )
+        self.tree.column("week", width=60)
+        self.tree.column("job count", width=75)
+        self.tree.column("total hours", width=90)
+        self.tree.column("average", width=70)
+        self.tree.column("top job", width=100)
 
-        self.tree.heading("job", text="Job")
-        self.tree.heading("hours", text="Hours")
+        self.tree.heading("week", text="Week")
+        self.tree.heading("job count", text="Job Count")
+        self.tree.heading("total hours", text="Total Hours")
+        self.tree.heading("average", text="Average")
+        self.tree.heading("top job", text="Top Job")
 
         for i in range(20):
-            self.tree.insert("", "end", values=("Walmart", 12))
-            self.tree.insert("", "end", values=("Target", 8))
+            self.tree.insert("", "end", values=("Walmart", 12, 2, 3,4))
+            self.tree.insert("", "end", values=("Target", 12, 2, 3,4))
         
         scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
