@@ -10,7 +10,6 @@ class ViewWeeksFrame(tk.Frame):
         super().__init__(parent)
         self.controller = controller
 
-
         table_frame = tk.Frame(self)
         table_frame.grid(row=0, column=0, padx=30, pady=(30, 0))  
         button_frame = tk.Frame(self)
@@ -21,11 +20,11 @@ class ViewWeeksFrame(tk.Frame):
             columns=("week", "job count", "total hours", "average", "top job"),
             show="headings"
         )
-        self.tree.column("week", width=60)
-        self.tree.column("job count", width=75)
-        self.tree.column("total hours", width=90)
-        self.tree.column("average", width=70)
-        self.tree.column("top job", width=100)
+        self.tree.column("week", width=67, anchor="e")
+        self.tree.column("job count", width=75, anchor="e")
+        self.tree.column("total hours", width=75, anchor="e")
+        self.tree.column("average", width=75, anchor="e")
+        self.tree.column("top job", width=100, anchor="e")
 
         self.tree.heading("week", text="Week")
         self.tree.heading("job count", text="Job Count")
@@ -33,10 +32,9 @@ class ViewWeeksFrame(tk.Frame):
         self.tree.heading("average", text="Average")
         self.tree.heading("top job", text="Top Job")
 
-        for i in range(20):
-            self.tree.insert("", "end", values=("Walmart", 12, 2, 3,4))
-            self.tree.insert("", "end", values=("Target", 12, 2, 3,4))
-        
+        for week in state.all_weeks:
+            self.tree.insert("", "end", values=(week["week_date"], week["job_count"], week["total_hours"], week["average"], week["top_job"]))
+
         scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
 

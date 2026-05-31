@@ -57,3 +57,6 @@ class WeekService():
             formatted_duration = self.time_service.parse_time(duration)
             hours.append(formatted_duration[0])
         return jobs, hours
+    
+    def get_all_weeks(self):
+        all_weeks = []
