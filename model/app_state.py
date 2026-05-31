@@ -20,6 +20,12 @@ class AppState:
     session_current: int = 0
     totalTime: str = ""
     todaysTotalTime: str = ""
+    start_of_week: str = ""
+    job_count: int = 0
+    hours_this_week: str = ""
+    avg_per_day: str = ""
+    top_job: str = "" 
+
 
     def setup(self):
         state_service = StateService()
