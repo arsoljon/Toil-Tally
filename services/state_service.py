@@ -35,3 +35,22 @@ class StateService():
         #update directly to the session_job_seconds
         state.session_job_seconds = diff_seconds
 
+    def get_labels(self, items):
+        labels = []
+        for name, value in items.items():
+            labels.append(name.replace("_", " "))
+        return labels
+    
+    def get_all_weeks(self):
+        db = DatabaseService()
+        #get week_dates from weeks
+        weeks = db.get_weeks()
+        print("All weeks", weeks)
+        #get all jobs and sort them via weeks_id
+        #get job count from all jobs with the same week_id
+        #get total hours from all jobs with the same week_id
+        #avg
+        #topjob
+        return [{"week_date":"2026/05/26","job_count": 3,"total_hours": 45,"average": 12,"top_job": "Stonks"}, 
+                {"week_date":"2026/05/23","job_count": 4,"total_hours": 55,"average": 22,"top_job": "Toil Tally"},
+                {"week_date":"2026/05/22","job_count": 5,"total_hours": 65,"average": 32,"top_job": "Devops"}]

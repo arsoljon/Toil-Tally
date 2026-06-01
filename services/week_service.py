@@ -1,13 +1,17 @@
 from datetime import timedelta, datetime, time
 from services.time_services import TimeService
+from services.database.database_service import DatabaseService
 
 class WeekService():
     def __init__(self):
         self.time_service = TimeService()
+        self.db = DatabaseService()
 
-    def get_start_of_week(self):
+    def get_start_of_week(self, date):
         #using datetime lib, days are represented: 
         # 0-6 => Monday-Sunday 
+        #Check if the start of week is already in weeks table. 
+        #   If not, then add to weeks table in db. 
         seconds_per_day = timedelta(days=1).total_seconds()
         today = datetime.now()
         seconds_today = today.timestamp()
@@ -15,6 +19,7 @@ class WeekService():
             diff = seconds_per_day * (today.weekday() + 1)
             seconds_today = seconds_today - diff
         date = datetime.fromtimestamp(seconds_today).date()
+        self.db.update_weeks_table(date)
         return date
 
     def get_job_count(self, jobs):

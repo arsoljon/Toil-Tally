@@ -50,15 +50,14 @@ class AppState:
 
         self.deleted_jobs = {}
 
-        self.start_of_week = week_service.get_start_of_week()
+        self.start_of_week = week_service.get_start_of_week(self.currentDate)
         self.job_count = week_service.get_job_count(self.job_durations)
         self.hours_this_week = week_service.get_total_hours(self.job_durations)
         self.avg_per_day = week_service.get_avg_per_day(self.job_durations)
         self.top_job = week_service.get_top_job(self.job_durations)
 
-        self.all_weeks = [{"week_date":"2026/05/26","job_count": 3,"total_hours": 45,"average": 12,"top_job": "Stonks"}, 
-                            {"week_date":"2026/05/23","job_count": 4,"total_hours": 55,"average": 22,"top_job": "Toil Tally"},
-                            {"week_date":"2026/05/22","job_count": 5,"total_hours": 65,"average": 32,"top_job": "Devops"}]
-        self.all_weeks = week_service.get_all_weeks()
+        self.all_weeks = state_service.get_all_weeks()
+        self.column_labels = state_service.get_labels(self.all_weeks[0])
+        #self.all_weeks = week_service.get_all_weeks()
             
 

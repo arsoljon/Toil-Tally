@@ -17,21 +17,17 @@ class ViewWeeksFrame(tk.Frame):
 
         self.tree = ttk.Treeview(
             table_frame,
-            columns=("week", "job count", "total hours", "average", "top job"),
+            columns=(state.column_labels[0],
+                     state.column_labels[1],
+                     state.column_labels[2],
+                     state.column_labels[3],
+                     state.column_labels[4]),
             show="headings"
         )
-        self.tree.column("week", width=67, anchor="e")
-        self.tree.column("job count", width=75, anchor="e")
-        self.tree.column("total hours", width=75, anchor="e")
-        self.tree.column("average", width=75, anchor="e")
-        self.tree.column("top job", width=100, anchor="e")
-
-        self.tree.heading("week", text="Week")
-        self.tree.heading("job count", text="Job Count")
-        self.tree.heading("total hours", text="Total Hours")
-        self.tree.heading("average", text="Average")
-        self.tree.heading("top job", text="Top Job")
-
+        for label in state.column_labels:
+            self.tree.column(label, width=67, anchor="e")    
+            self.tree.heading(label, text=label.title())
+        
         for week in state.all_weeks:
             self.tree.insert("", "end", values=(week["week_date"], week["job_count"], week["total_hours"], week["average"], week["top_job"]))
 

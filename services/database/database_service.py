@@ -6,11 +6,12 @@ class DatabaseService:
         self.cursor = self.conn.cursor()
 
     def setup(self):
+        self.reset_tables()
         self.cursor.execute("PRAGMA foreign_keys = ON;")
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS weeks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                week_start TEXT
+                week_start TEXT UNIQUE
             );
         """)
         self.cursor.execute("""            
@@ -34,14 +35,31 @@ class DatabaseService:
         """)
         self.conn.commit()
 
+    def update_weeks_table(self, date):
+        #only update the weeks table if date is not found in table 
+        self.cursor.execute("""
+            INSERT INTO weeks (week_start)
+            VALUES (?)
+            ON CONFLICT(week_start) DO NOTHING; 
+        """,(date,)
+        )
+        self.conn.commit()   
+
+    def get_week_id(self, date):
+        self.cursor.execute(
+            "SELECT id FROM weeks WHERE week_start = ?",
+            (date,)
+        )
+        return self.cursor.fetchone()[0]
 
     def insert_job(self, job):
-        name, duration = job
+        name, duration, start_of_week = job
+        week_id = self.get_week_id(start_of_week)
         self.cursor.execute(
-            "INSERT INTO jobs (name, duration) " \
-            "VALUES (?,?) " \
+            "INSERT INTO jobs (name, duration, week_id) " \
+            "VALUES (?,?,?) " \
             "on CONFLICT(name) DO UPDATE SET duration = excluded.duration;", 
-            (name, duration)
+            (name, duration, week_id)
         )
         self.conn.commit()
     
@@ -92,7 +110,12 @@ class DatabaseService:
             self.cursor.execute("DELETE FROM jobs WHERE name=?", (job,))
         self.conn.commit()
 
+    def get_weeks(self):
+        self.cursor.execute("SELECT * FROM weeks")
+        return self.cursor.fetchall()
+        
     def reset_tables(self):
+        self.cursor.execute("DROP TABLE weeks")
         self.cursor.execute("DROP TABLE jobs")
         self.cursor.execute("DROP TABLE sessions")
         self.conn.commit()
