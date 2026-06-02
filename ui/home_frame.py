@@ -40,6 +40,7 @@ class HomeFrame(tk.Frame):
         self.refresh(state)
 
     def on_click_view_weeks(self, controller, state):
+        print("from home, all jobs: ", state.job_durations)
         controller.show_frame(controller.home_pages[3], state)
 
     def on_click_save(self, controller, state):

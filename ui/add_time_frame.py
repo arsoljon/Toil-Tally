@@ -36,7 +36,7 @@ class AddTimeFrame(tk.Frame):
                     key.lower() for key in state.job_durations.keys()
                 )
             ):
-                return 
+                return
             else:
                 self.time_service.add_new_job(state, self.entry.get())
         session = [int(self.hour.get()), int(self.minute.get()), 0]

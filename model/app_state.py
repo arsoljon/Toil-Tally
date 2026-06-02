@@ -34,7 +34,8 @@ class AppState:
         db = DatabaseService()
         db.setup()
         self.currentDate =  time.strftime("%Y-%m-%d")
-        self.job_durations = db.get_all_jobs()
+        #self.currentDate = "2026-05-20"
+        self.job_durations = db.get_todays_jobs(self.currentDate)
         self.labels_for_jobs = db.get_job_labels()
         self.totalTime = state_service.get_total_time(self.job_durations)
         self.todaysTotalTime = state_service.get_todays_total_time(self.currentDate)

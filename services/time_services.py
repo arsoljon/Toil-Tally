@@ -16,7 +16,7 @@ class TimeService():
         state.job_durations[state.currentJob] = self.time_to_string(formatted_total)
         for job, duration in state.job_durations.items():
             if job == state.currentJob:
-                db.insert_job((job, duration, state.start_of_week))
+                db.insert_job((job, duration, state.start_of_week, state.currentDate))
         db.insert_session(state)
         #db.insert_job(state.job_durations[state.currentJob])
 
@@ -118,6 +118,9 @@ class TimeService():
         state.labels_for_jobs.append(job)
         state.currentJob = job
         state.job_durations[state.currentJob] = "00:00:00"
+        #add to db
+        #self.db.insert_job()
+
 
     def increment_duration(self, state, time):
         if(state.currentJob not in state.job_durations):

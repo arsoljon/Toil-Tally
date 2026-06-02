@@ -47,6 +47,8 @@ class StateService():
         weeks = db.get_weeks()
         print("All weeks", weeks)
         #get all jobs and sort them via weeks_id
+        all_jobs = db.get_all_jobs(weeks)
+        print(all_jobs)
         #get job count from all jobs with the same week_id
         #get total hours from all jobs with the same week_id
         #avg

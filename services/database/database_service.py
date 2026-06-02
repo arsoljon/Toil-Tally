@@ -6,7 +6,7 @@ class DatabaseService:
         self.cursor = self.conn.cursor()
 
     def setup(self):
-        self.reset_tables()
+        #self.reset_tables()
         self.cursor.execute("PRAGMA foreign_keys = ON;")
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS weeks (
@@ -20,6 +20,7 @@ class DatabaseService:
                 week_id INTEGER,
                 name VARCHAR(255) UNIQUE,
                 duration TEXT,
+                current_date TEXT,
                 FOREIGN KEY(week_id) references weeks(id)
             );
         """)
@@ -53,13 +54,13 @@ class DatabaseService:
         return self.cursor.fetchone()[0]
 
     def insert_job(self, job):
-        name, duration, start_of_week = job
+        name, duration, start_of_week, current_date = job
         week_id = self.get_week_id(start_of_week)
         self.cursor.execute(
-            "INSERT INTO jobs (name, duration, week_id) " \
-            "VALUES (?,?,?) " \
+            "INSERT INTO jobs (name, duration, week_id, current_date) " \
+            "VALUES (?,?,?,?) " \
             "on CONFLICT(name) DO UPDATE SET duration = excluded.duration;", 
-            (name, duration, week_id)
+            (name, duration, week_id, current_date)
         )
         self.conn.commit()
     
@@ -81,7 +82,9 @@ class DatabaseService:
             "SELECT duration FROM jobs"
         )
 
-    def get_all_jobs(self):
+    def get_todays_jobs(self, today):
+        #get week_id first by get the start week associated to today
+
         self.cursor.execute("SELECT name, duration FROM jobs")
         all_jobs = {}
         for i, item in enumerate(self.cursor.fetchall()):
@@ -113,6 +116,20 @@ class DatabaseService:
     def get_weeks(self):
         self.cursor.execute("SELECT * FROM weeks")
         return self.cursor.fetchall()
+    
+    def get_all_jobs(self, weeks):
+        #using weeks, go through each job, adding to all_jobs such that
+        #   all_jobs is a list, each item in the list groups jobs by week_date
+        all_jobs = []
+        
+        for week in weeks:
+            print("week : ", week)
+            week_id, date = list(week)
+            
+            self.cursor.execute("SELECT week_id, name, duration, current_date FROM jobs WHERE week_id = ?",
+            (week_id,))
+            all_jobs.append(self.cursor.fetchall())
+        return all_jobs
         
     def reset_tables(self):
         self.cursor.execute("DROP TABLE weeks")
