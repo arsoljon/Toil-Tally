@@ -29,7 +29,7 @@ class AppController:
             state, self.time_service
         )
         self.clock_in_controller = ClockInController(
-            state, self.time_service, self.state_service
+            state, self.time_service, self.state_service, self.db
         )
         self.graph_controller = GraphController(
             state, self.week_service

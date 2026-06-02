@@ -5,15 +5,17 @@ class TimeService():
         #self.db_service = DatabaseService()
         pass
 
-    def add_session_to_job(self, controller, state):
+    def add_session_to_job(self, state):
         #current duration and increment the current sessions time
         #both are strings and require parsing.
         db = DatabaseService()
+        
         original_duration = self.parse_time(state.job_durations[state.currentJob]) 
         duration_seconds = self.time_to_seconds(original_duration)
         total = state.session_job_seconds + duration_seconds
         formatted_total = self.parse_seconds(total)
         state.job_durations[state.currentJob] = self.time_to_string(formatted_total)
+        
         for job, duration in state.job_durations.items():
             if job == state.currentJob:
                 db.insert_job((job, duration, state.start_of_week, state.currentDate))
