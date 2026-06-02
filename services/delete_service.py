@@ -30,8 +30,6 @@ class DeleteService:
             del state.deleted_jobs[job_key]
             state.job_durations[job_key] = job_time
             state.labels_for_jobs.append(job_key)
-            #update total
-            newTotal = self.timeservice.add_times(state.totalTime, job_time)
-            state.totalTime = newTotal
+            return job_time
         else:
-            return 
+            return None

@@ -3,17 +3,48 @@ from services.state_service import StateService
 from services.status_service import StatusService
 from services.time_services import TimeService
 from services.week_service import WeekService
+from controllers.add_time_controller import AddTimeController
+from controllers.clock_in_time_controller import ClockInController
+from controllers.graph_controller import GraphController
+from controllers.home_controller import HomeController
+from controllers.notes_controller import NotesController
+from controllers.pause_controller import PauseController
+from controllers.weeks_controller import WeeksController
 import time
 from services.database.database_service import DatabaseService
 
 class AppController:
-    def __init__(self):
+    def __init__(self, state):
         self.db = DatabaseService()
         self.week_service = WeekService()
         self.time_service = TimeService()
         self.status_service = StatusService()
         self.state_service = StateService()
         self.delete_service = DeleteService()
+
+        self.home_controller = HomeController(
+            state, self.delete_service, self.time_service
+        )
+        self.add_time_controller = AddTimeController(
+            state, self.time_service
+        )
+        self.clock_in_controller = ClockInController(
+            state, self.time_service, self.state_service
+        )
+        self.graph_controller = GraphController(
+            state, self.week_service
+        )
+        self.notes_controller = NotesController(
+            state
+        )
+        self.pause_controller = PauseController(
+            state, self.time_service
+        )
+        self.weeks_controller = WeeksController(
+            state
+        )    
+
+        
 
     def setup_db(self, db):
         db.setup()
