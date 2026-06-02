@@ -23,7 +23,7 @@ class AppController:
         self.delete_service = DeleteService()
 
         self.home_controller = HomeController(
-            state, self.delete_service, self.time_service
+            state, self.delete_service, self.time_service, self.state_service, self.db
         )
         self.add_time_controller = AddTimeController(
             state, self.time_service

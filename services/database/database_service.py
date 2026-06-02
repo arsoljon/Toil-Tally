@@ -116,7 +116,7 @@ class DatabaseService:
             total_seconds += session[0]
         return total_seconds 
     
-    def update_jobs(self, controller, state):
+    def update_jobs(self, state):
         #while comparing deletedList
         self.cursor.execute("PRAGMA foreign_keys = ON;")
         for job, duration in state.deleted_jobs.items():

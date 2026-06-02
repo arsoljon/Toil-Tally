@@ -20,10 +20,16 @@ class StateService():
         formatted_total = time_service.time_to_string(time_service.parse_seconds(seconds))
         return formatted_total
     
+    ###possibly delete and only use databaseService
+    ###
+    ###
     def update_state(self, controller, state):
         db = DatabaseService()
         db.update_jobs(controller, state)
-        
+    ###
+    ###
+    ###
+     
     def update_session_initial(self, state):
         state.session_initial = int(time.time())
 

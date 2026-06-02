@@ -1,4 +1,5 @@
 import tkinter as tk
+from controllers.app_controller import AppController
 from ui.home_frame import HomeFrame 
 from ui.add_time_frame import AddTimeFrame
 from ui.pause_frame import PauseFrame
@@ -15,6 +16,7 @@ class AppUI(tk.Tk):
         super().__init__()
         new_state = AppState()
         new_state.setup()
+        self.app_controller = AppController(new_state)
         self.status_service = StatusService()
         
         self.home_pages = [ClockedInFrame, AddTimeFrame, HomeFrame, ViewWeeksFrame]
@@ -43,7 +45,9 @@ class AppUI(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        self.frames[HomeFrame] = HomeFrame(container, self, new_state)
+        self.frames[HomeFrame] = HomeFrame(
+            container, self, self.app_controller.home_controller, new_state
+        )
         self.frames[ClockedInFrame] = ClockedInFrame(container, self, new_state)
         self.frames[PauseFrame] = PauseFrame(container, self, new_state)
         self.frames[AddTimeFrame] = AddTimeFrame(container, self, new_state)
