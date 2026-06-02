@@ -84,7 +84,17 @@ class DatabaseService:
 
     def get_todays_jobs(self, today):
         #get week_id first by get the start week associated to today
-
+        #start_week = get_start_week(today)
+        '''
+        start_week = week_service.get_start_of_week(today)
+        week_id = self.get_week_id(start_week)
+        self.cursor.execute("SELECT name, duration FROM jobs WHERE week_id = ?",(week_id,))
+        all_jobs = {}
+        for i, item in enumerate(self.cursor.fetchall()):
+            job, duration = item
+            all_jobs[job] = duration 
+        return all_jobs
+'''
         self.cursor.execute("SELECT name, duration FROM jobs")
         all_jobs = {}
         for i, item in enumerate(self.cursor.fetchall()):
@@ -125,10 +135,17 @@ class DatabaseService:
         for week in weeks:
             print("week : ", week)
             week_id, date = list(week)
-            
-            self.cursor.execute("SELECT week_id, name, duration, current_date FROM jobs WHERE week_id = ?",
+            self.cursor.execute("SELECT name, duration, current_date FROM jobs WHERE week_id = ?",
             (week_id,))
-            all_jobs.append(self.cursor.fetchall())
+            result = self.cursor.fetchall()
+
+            jobs_in_week = {}
+            for job in result:
+                name, duration, current_date = job
+                jobs_in_week["name"] = name
+                jobs_in_week["duration"] = duration
+                jobs_in_week["current_date"] = current_date
+            all_jobs.append(jobs_in_week)
         return all_jobs
         
     def reset_tables(self):

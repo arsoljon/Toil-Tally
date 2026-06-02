@@ -7,20 +7,24 @@ class WeekService():
         self.time_service = TimeService()
         self.db = DatabaseService()
 
+    
     def get_start_of_week(self, date):
+        #setup
+        seconds_per_day = timedelta(days=1).total_seconds()
+        today = datetime.strptime(date, "%Y-%m-%d")
+        seconds_today = today.timestamp()
+        #check how far off today is from the beginning of the week, sunday
         #using datetime lib, days are represented: 
         # 0-6 => Monday-Sunday 
-        #Check if the start of week is already in weeks table. 
-        #   If not, then add to weeks table in db. 
-        seconds_per_day = timedelta(days=1).total_seconds()
-        today = datetime.now()
-        seconds_today = today.timestamp()
         if today.weekday() < 6:
             diff = seconds_per_day * (today.weekday() + 1)
             seconds_today = seconds_today - diff
-        date = datetime.fromtimestamp(seconds_today).date()
-        self.db.update_weeks_table(date)
-        return date
+        #convert to y-m-d format
+        start_of_week = datetime.fromtimestamp(seconds_today).date()
+        #add it to the weeks table iff today is sunday, 
+        self.db.update_weeks_table(start_of_week)
+        print("start of the week: ", start_of_week)
+        return start_of_week
 
     def get_job_count(self, jobs):
         return len(jobs)
