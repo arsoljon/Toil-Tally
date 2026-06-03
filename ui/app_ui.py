@@ -57,9 +57,15 @@ class AppUI(tk.Tk):
         self.frames[AddTimeFrame] = AddTimeFrame(
             container, self, self.app_controller.add_time_controller, new_state
         )
-        self.frames[ViewWeeksFrame] = ViewWeeksFrame(container, self, new_state)
-        self.frames[GraphFrame] = GraphFrame(container, self, new_state)
-        self.frames[NotesFrame] = NotesFrame(container, self, new_state)
+        self.frames[ViewWeeksFrame] = ViewWeeksFrame(
+            container, self, self.app_controller.weeks_controller, new_state
+        )
+        self.frames[GraphFrame] = GraphFrame(
+            container, self, self.app_controller.graph_controller, new_state
+        )
+        self.frames[NotesFrame] = NotesFrame(
+            container, self, self.app_controller.notes_controller, new_state
+        )
 
         for frame in self.frames.values():
             frame.grid(row=0, column=0, sticky="nsew")

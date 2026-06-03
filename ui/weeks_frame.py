@@ -6,10 +6,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class ViewWeeksFrame(tk.Frame):
-    def __init__(self, parent, controller, state):
+    def __init__(self, parent, ui_controller, week_controller, state):
         super().__init__(parent)
-        self.controller = controller
-
+        self.ui_controller = ui_controller
+        self.week_controller = week_controller
         table_frame = tk.Frame(self)
         table_frame.grid(row=0, column=0, padx=30, pady=(30, 0))  
         button_frame = tk.Frame(self)
@@ -36,15 +36,15 @@ class ViewWeeksFrame(tk.Frame):
 
         self.tree.pack(side="left", fill="both", expand=False)
         scrollbar.pack(side="right", fill="y")
-        self.button1 = tk.Button(button_frame, text=controller.viewWeeks_buttons[0], command= lambda: self.on_click_home(controller, state))
+        self.button1 = tk.Button(button_frame, text=ui_controller.viewWeeks_buttons[0], command= lambda: self.on_click_home(ui_controller, state))
         self.button1.grid(row=1, column=0)
-        self.tree.bind("<Double-1>", lambda event: self.on_click_walmart(event, controller, state))
+        self.tree.bind("<Double-1>", lambda event: self.on_click_walmart(event, ui_controller, state))
 
-    def on_click_walmart(self, event, controller, state):
+    def on_click_walmart(self, event, ui_controller, state):
         item = self.tree.focus()
         values = self.tree.item(item, "values")
         print("Open details for:", values)
-        controller.show_frame(controller.viewWeeks_pages[1], state)
+        ui_controller.show_frame(ui_controller.viewWeeks_pages[1], state)
 
-    def on_click_home(self, controller, state):
-        controller.show_frame(controller.viewWeeks_pages[0], state)
+    def on_click_home(self, ui_controller, state):
+        ui_controller.show_frame(ui_controller.viewWeeks_pages[0], state)

@@ -6,13 +6,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class GraphFrame(tk.Frame):
-    def __init__(self, parent, controller, state):
+    def __init__(self, parent, ui_controller, graph_controller, state):
         super().__init__(parent)
         self.parent = parent
-        self.controller = controller
+        self.graph_controller = graph_controller
+        self.ui_controller = ui_controller
         self.week_service = WeekService()
 
-        self.jobs, self.hours = self.week_service.get_bar_info(state)
+        self.jobs, self.hours = self.graph_controller.get_bar_info()
+        self.week_service.get_bar_info(state)
 
         button_frame = tk.Frame(self)
         button_frame.grid(row=1, column=0)
@@ -38,14 +40,14 @@ class GraphFrame(tk.Frame):
         self.canvas_widget = self.canvas.get_tk_widget()
         self.canvas_widget.grid(row=0, column=0, sticky="nsew")
         # Connect click handler
-        self.canvas.mpl_connect("pick_event", lambda pick_event: self.on_bar_click_notes(pick_event, controller, state))
+        self.canvas.mpl_connect("pick_event", lambda pick_event: self.on_bar_click_notes(pick_event, ui_controller, state))
 
-        self.button1 = tk.Button(button_frame, text=controller.graph_buttons[0], command= lambda: self.on_click_home(controller, state))
+        self.button1 = tk.Button(button_frame, text=ui_controller.graph_buttons[0], command= lambda: self.on_click_home(ui_controller, state))
         self.button1.grid(row=1, column=0)
 
     def refresh(self, state):
         #update the jobs shown if a new job is added to job_durations
-        self.jobs, self.hours = self.week_service.get_bar_info(state)
+        self.jobs, self.hours = self.graph_controller.get_bar_info()
         self.ax.clear()
         self.bars = self.ax.barh(self.jobs, self.hours, picker=True)
         self.ax.set_xlabel("Hours")
@@ -56,14 +58,14 @@ class GraphFrame(tk.Frame):
         
 
 
-    def on_bar_click_notes(self,event, controller, state):
+    def on_bar_click_notes(self,event, ui_controller, state):
         bar = event.artist
         # Find which bar was clicked
         index = list(self.bars).index(bar)
         job_name = self.jobs[index]
         state.current_job = job_name
         print(f"Clicked: {job_name}")
-        controller.show_frame(controller.graph_pages[1], state)
+        ui_controller.show_frame(ui_controller.graph_pages[1], state)
 
-    def on_click_home(self, controller, state):
-        controller.show_frame(controller.graph_pages[0], state)
+    def on_click_home(self, ui_controller, state):
+        ui_controller.show_frame(ui_controller.graph_pages[0], state)
