@@ -51,8 +51,12 @@ class AppUI(tk.Tk):
         self.frames[ClockedInFrame] = ClockedInFrame(
             container, self, self.app_controller.clock_in_controller, new_state
         )
-        self.frames[PauseFrame] = PauseFrame(container, self, new_state)
-        self.frames[AddTimeFrame] = AddTimeFrame(container, self, new_state)
+        self.frames[PauseFrame] = PauseFrame(
+            container, self, new_state
+        )
+        self.frames[AddTimeFrame] = AddTimeFrame(
+            container, self, self.app_controller.add_time_controller, new_state
+        )
         self.frames[ViewWeeksFrame] = ViewWeeksFrame(container, self, new_state)
         self.frames[GraphFrame] = GraphFrame(container, self, new_state)
         self.frames[NotesFrame] = NotesFrame(container, self, new_state)

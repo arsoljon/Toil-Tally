@@ -36,6 +36,7 @@ class TimeService():
 
 
     def time_to_seconds(self, time):
+        # time = hour, minute, second in list form
         hh, mm, ss = time
         seconds = hh * 3600
         seconds += mm * 60
@@ -116,12 +117,21 @@ class TimeService():
         return f"{time[0]:02}:{time[1]:02}:{time[2]:02}"
     
     def add_new_job(self, state, job):
-        #add new job
-        state.labels_for_jobs.append(job)
-        state.currentJob = job
-        state.job_durations[state.currentJob] = "00:00:00"
+        if(state.currentJob == "Other"):
+            #do not accept empty entry job name or job name that is already in job durations. 
+            if(len(job) <= 0 or job.lower() in (
+                    key.lower() for key in state.job_durations.keys()
+                )
+            ):
+                return False
+            else:
+                #add new job
+                state.labels_for_jobs.append(job)
+                state.currentJob = job
+                state.job_durations[state.currentJob] = "00:00:00"
         #add to db
         #self.db.insert_job()
+        return True
 
 
     def increment_duration(self, state, time):

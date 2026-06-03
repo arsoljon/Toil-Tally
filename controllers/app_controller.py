@@ -26,7 +26,7 @@ class AppController:
             state, self.delete_service, self.time_service, self.state_service, self.db
         )
         self.add_time_controller = AddTimeController(
-            state, self.time_service
+            state, self.time_service, self.db
         )
         self.clock_in_controller = ClockInController(
             state, self.time_service, self.state_service, self.db
