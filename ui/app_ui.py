@@ -52,7 +52,7 @@ class AppUI(tk.Tk):
             container, self, self.app_controller.clock_in_controller, new_state
         )
         self.frames[PauseFrame] = PauseFrame(
-            container, self, new_state
+            container, self, self.app_controller.pause_controller, new_state
         )
         self.frames[AddTimeFrame] = AddTimeFrame(
             container, self, self.app_controller.add_time_controller, new_state

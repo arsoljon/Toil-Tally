@@ -38,7 +38,7 @@ class AppController:
             state
         )
         self.pause_controller = PauseController(
-            state, self.time_service
+            state, self.time_service, self.db
         )
         self.weeks_controller = WeeksController(
             state
